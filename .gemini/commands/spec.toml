@@ -1,0 +1,5 @@
+description = "Synthesize agreed requirements into SPEC.md with confirmed public test seams."
+prompt = """
+Read and follow `skills/lam-spec/SKILL.md` to execute this request:
+{{args}}
+"""

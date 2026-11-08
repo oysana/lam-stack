@@ -1,0 +1,5 @@
+description = "Establish or check the repo's mechanical quality bar in CONSTRAINTS.md."
+prompt = """
+Read and follow `skills/lam-constraints/SKILL.md` to execute this request:
+{{args}}
+"""

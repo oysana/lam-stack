@@ -1,0 +1,5 @@
+description = "Run a 7-category environment retrospective and 5-layer mistake hardening pass."
+prompt = """
+Read and follow `skills/lam-retro/SKILL.md` to execute this request:
+{{args}}
+"""

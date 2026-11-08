@@ -1,0 +1,5 @@
+description = "Slice a Spec into tracer-bullet vertical tickets with blocking edges."
+prompt = """
+Read and follow `skills/lam-tickets/SKILL.md` to execute this request:
+{{args}}
+"""

@@ -1,0 +1,5 @@
+description = "Run scientific performance optimization and benchmark-vetted hillclimbing."
+prompt = """
+Read and follow `skills/lam-perf/SKILL.md` to execute this request:
+{{args}}
+"""

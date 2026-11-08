@@ -1,0 +1,5 @@
+description = "Run Deslop, Comment-Sicko, Floor Guard, and Dual-Axis Doubt/Standards review."
+prompt = """
+Read and follow `skills/lam-review/SKILL.md` to execute this request:
+{{args}}
+"""

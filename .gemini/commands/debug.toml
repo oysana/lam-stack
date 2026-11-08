@@ -1,0 +1,5 @@
+description = "Diagnose a bug using the 6-phase red-capable feedback loop workflow."
+prompt = """
+Read and follow `skills/lam-debug/SKILL.md` to execute this request:
+{{args}}
+"""

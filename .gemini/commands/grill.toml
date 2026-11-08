@@ -1,0 +1,5 @@
+description = "Run Frontier Grilling and inline GLOSSARY.md/ADR domain modeling."
+prompt = """
+Read and follow `skills/lam-grill/SKILL.md` to execute this request:
+{{args}}
+"""

@@ -1,0 +1,5 @@
+description = "Design deep module interfaces via a parallel Design-It-Twice arena bakeoff."
+prompt = """
+Read and follow `skills/lam-architect/SKILL.md` to execute this request:
+{{args}}
+"""

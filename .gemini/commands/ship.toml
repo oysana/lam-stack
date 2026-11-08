@@ -1,0 +1,5 @@
+description = "Format a visual PR body, run the 6-gate /ship launch audit, or babysit a PR."
+prompt = """
+Read and follow `skills/lam-ship/SKILL.md` to execute this request:
+{{args}}
+"""

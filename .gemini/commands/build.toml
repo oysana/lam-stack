@@ -1,0 +1,5 @@
+description = "Implement a ticket or full Spec graph with SDD and Seam-TDD."
+prompt = """
+Read and follow `skills/lam-build/SKILL.md` to execute this request:
+{{args}}
+"""

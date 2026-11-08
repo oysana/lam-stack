@@ -1,0 +1,5 @@
+description = "Investigate how a subsystem works and why it was built that way."
+prompt = """
+Read and follow `skills/lam-investigate/SKILL.md` to execute this request:
+{{args}}
+"""
