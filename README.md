@@ -5,6 +5,8 @@
 
 **Measured startup surface** (YAML frontmatter bytes that harnesses preload as skill metadata, counted 2026-11-08 on v0.2.1): L.A.M. carries `~4.3 KB` across 13 skills + router, vs `~36 KB` for all three source packs combined (66 + 39 + 25 skills). That is roughly `1.1k` vs `9k` tokens at 4 bytes/token, and smaller than any single source pack (pstack `~17.8 KB`, mattpocock `~8.0 KB`, addyosmani `~10.3 KB`). Method and raw counts are in `evals/startup-surface.md`.
 
+**Head-to-head status (honest):** in a blinded 4-arm duel on real tasks (same model, task, seed, starting commit; 24 runs), L.A.M. **tied** pstack and finished marginally behind the Pocock and Osmani packs on a saturated strong-model lane — details and raw grader JSON in `evals/duel-2026-11-08.md`. A discriminating free-model lane is instrumented; claims here stay exact about which packs, if any, were beaten.
+
 ---
 
 ## Navigation
