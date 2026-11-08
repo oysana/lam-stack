@@ -1,3 +1,9 @@
+---
+name: before-code-playbooks
+description: Seam 0 through Seam 4 pre-code playbooks including 4 Model Roles routing, CLAIM->EXTRACT->DOUBT->RECONCILE->STOP loop, Frontier Rounds, Spec lock, and Tracer-Bullet slicing.
+version: 0.2.0
+---
+
 # L.A.M. Stack: Before-Code Playbooks (До кода)
 
 This file governs all pre-code discovery, codebase investigation, requirement interrogation, specification, mechanical quality gating, interface architecture, and vertical-slice task breakdown.
@@ -180,3 +186,26 @@ This file governs all pre-code discovery, codebase investigation, requirement in
    - Every ticket declares: `What to build` (user-observable behavior, no brittle file-line dumps), `Confirmed Seam & Acceptance Criteria`, `Verification Command`, and `Blocked by` (native tracker edges or ticket numbers).
    - Record the 4-item **Throughput Checkpoint (`pstack`)**: (1) Data shape named, (2) Independent slices identified for parallel worktree execution, (3)Deterministic lever/script opportunities noted (`principle-build-the-lever`), (4) Exact live surface verification command chosen.
 4. **Quiz & Publish**: Present the numbered ticket graph (`Title | Blocked by | What it delivers`) for quick confirmation, then publish to the configured tracker (GitHub Issues with `--parent` and `--blocked-by`, `.scratch/<feature>/issues/<NN>-<slug>.md`, or `tasks/todo.md`).
+
+---
+
+## Playbook 10: The 4 Model Roles Routing Table & Pre-Code Doubt Loop (`pstack` + `doubt-driven-development`)
+
+### 10.1 The 4 Model Roles Routing Table (`worker`, `builder`, `judge`, `peer`)
+
+| Model Role | Cognitive Posture | Permitted Operations | Forbidden Operations | Primary Seams |
+| :--- | :--- | :--- | :--- | :--- |
+| **`worker`** | Fast, deterministic mechanical execution and reconnaissance. | Running `how`/`why` indexing, `validate-lam.py`, `floor-guard.sh`, `seam-gate.sh`, and `log-decision.sh`. | Inventing domain abstractions or relaxing `CONSTRAINTS.md` rules. | Seam 0, Seam 2 |
+| **`builder`** | Deep-module synthesis, $M = R$ type modeling, and Tracer-Bullet slice authoring. | Authoring `GLOSSARY.md`, `SPEC.md`, boundary parsers, and vertical code slices passing `check:task`. | Self-approving Seam 6 reviews or bypassing `floor-guard.sh`. | Seam 1, 3, 4, 5 |
+| **`judge`** | Cold Spec-Doubt verification with zero attachment to the builder's chain-of-thought. | Executing `CLAIM -> EXTRACT -> DOUBT -> RECONCILE -> STOP`, Cold Spec-Doubt, and 5-Layer Retro checks. | Quietly patching broken code without logging a finding first. | Seam 3, 6, 7 |
+| **`peer`** | Parallel alternative explorer in an isolated git worktree (`arena` or `interrogate`). | Competing in `/arena` worktrees (`seam-gate.sh worktree arena <slug>`) and probing edge cases in `/interrogate`. | Mutating the primary branch directly without winning selection. | Seam 3, 5, 6 |
+
+### 10.2 Pre-Code `CLAIM -> EXTRACT -> DOUBT -> RECONCILE -> STOP` Loop
+
+Before locking `SPEC.md` at Seam 3 or writing production code at Seam 5, execute all 5 steps:
+1. **`CLAIM`**: State the exact behavioral invariant, interface contract, or state transition as a falsifiable engineering claim.
+2. **`EXTRACT`**: Pull the concrete existing types, callers, and file paths from the live repository anchor (`Seam 0`).
+3. **`DOUBT`**: Switch to the cold `judge` posture and attack the claim across `Empty`, `Boundary`, `Error`, and `Concurrency` inputs or any $|M| > |R|$ state gap.
+4. **`RECONCILE`**: Reshape the schema using the Polyglot $M = R$ Data-Shape Matrix in `references/principles-and-vocabulary.md` so the doubted failure state becomes unrepresentable.
+5. **`STOP`**: Commit the contract to `SPEC.md`, log the commitment in `decisions.tsv` via `bash scripts/log-decision.sh`, and verify `bash scripts/seam-gate.sh check 4` before starting Seam 5.
+

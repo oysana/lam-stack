@@ -1,68 +1,59 @@
 ---
 name: lam-stack
-description: Unified L.A.M. Engineering OS merging Lauren Tan's pstack, Addy Osmani's agent-skills, and Matt Pocock's skills via a 7-Seam Artifact State Machine and Two-Load Progressive Disclosure. Use when investigating code, grilling requirements, modeling domains (GLOSSARY.md/ADRs), locking quality bars (CONSTRAINTS.md), architecting deep modules, slicing tracer-bullet tickets, implementing with SDD and Seam-TDD, debugging via red-capable loops, reviewing diffs, or shipping PRs.
+description: Ultra-compact Two-Load entry router for L.A.M. Stack v0.2.0. Delegates orchestration to skills/lam-mode/SKILL.md across the 7-Seam Artifact State Machine.
+version: 0.2.0
 ---
 
-# L.A.M. Stack (Lauren Tan + Addy Osmani + Matt Pocock)
+# L.A.M. Stack v0.2.0: Root Two-Load Entry Router
 
-Self-bootstrapped engineering workflow designed by applying L.A.M.'s own principles (`principle-attack-the-premise`, `principle-redesign-from-first-principles`, `codebase-design` Deep Modules, `writing-for-agents` Two-Load Hierarchy, and `doubt-driven-development`) to merge all three libraries without context bloat or rule collisions.
+This file is the `< 90` line Load-1 router for `lam-stack` v0.2.0. To eliminate the v0.1.0 DRY duplication defect between root `SKILL.md` and `skills/lam-mode/SKILL.md`, full orchestration rules live exclusively in `skills/lam-mode/SKILL.md`.
 
-## Why L.A.M. Replaces Naive 1-to-1 Patching (The What & How Upgrade)
+## 1. Two-Load Progressive Disclosure Router
 
-1. **The 7-Seam Artifact State Machine (`principle-model-the-domain` + `codebase-design`)**:
-   Instead of loose "Before / During / After" buckets, every workflow is a **Deep Module** whose public interface is a concrete repo artifact (**Seam**). No phase starts until its input seam is verified:
-   - **Seam 0 (Code Anchor)**: `how` + `why` + `research` -> verified `file:line` mechanics and git/ADR history.
-   - **Seam 1 (Intent & Domain)**: `lam-grill` (`grilling` + `interview-me` + `domain-modeling`) -> 6-line Intent Lock + pure domain `GLOSSARY.md` + 3-gate `docs/adr/NNNN-slug.md`.
-   - **Seam 2 (Quality Floor)**: `lam-constraints` (`/constraints` + `setup-ts-deep-modules`) -> `CONSTRAINTS.md` + `scripts/floor-guard.sh` + `check:fast`/`check:task`/`check:full`.
-   - **Seam 3 (Spec & Interface Contract)**: `lam-spec` + `lam-architect` (`/to-spec` + `SPEC.md` + `architect` via `arena` Design-It-Twice) -> confirmed public test seams + caller-first interface sketch + 3-tier boundaries.
-   - **Seam 4 (Executable Ticket Frontier)**: `lam-tickets` (`/to-tickets` + `wayfinder` + `triage`) -> vertical tracer-bullet tickets (or `Expand -> Migrate -> Contract` batches) with explicit `Blocked by` edges and 4-item Throughput Checkpoint.
-   - **Seam 5 (Verified Slice Commits)**: `lam-build` / `lam-debug` / `lam-perf` -> `SDD` (`// Source:` cited) + `Seam-TDD` (`RED -> GREEN`) + atomic ~100-line commits + `decisions.tsv` audit trail.
-   - **Seam 6 (Clean, Dual-Axis + Interrogated Diff)**: `lam-review` -> `deslop` + `comment-sicko` (7-item keep list) + `floor-guard.sh` + parallel `Spec-Doubt` (stripped of `CLAIM`) & `Standards-Arch` (5 axes + 12 Fowler smells) + executable worktree `interrogate` + real-surface verification.
-   - **Seam 7 (Shipped PR & Hardened Environment)**: `lam-ship` + `lam-retro` -> visual `pr` (Door + Blast Radius) + `/ship` canary/SLO gates + `/retro` + `correct` (5-layer mistake hardening).
+Load `skills/lam-mode/SKILL.md` first, then load **only** the active Seam skill, reference playbook, and subagent persona:
 
-2. **Two-Load Progressive Disclosure (`writing-for-agents` + `.agents/invocation.md`)**:
-   - **Context Load Protection**: Keep permanent context under 120 lines. Load **only** the single leaf playbook or reference file required for the current seam.
-   - **Cognitive Load Allocation**: Spend human turns strictly on high-leverage product intent (Seam 1), seam confirmation (Seam 3), and irreversible one-way doors (Seam 7). Never ask the human for facts discoverable via `how`/`why`/`research` or empirical forks testable via `prototype`.
+| Seam | Canonical Stage | Target Skill | Reference Playbook | Active Agent Persona(s) |
+| :--- | :--- | :--- | :--- | :--- |
+| **All** | Full 7-Seam Coordinator | `skills/lam-mode/SKILL.md` | `references/principles-and-vocabulary.md` | `agents/lam-coder.md` |
+| **Seam 0** | Code Anchor (`how` + `why`) | `skills/lam-investigate/SKILL.md` | `references/before-code-playbooks.md` | `agents/lam-coder.md` |
+| **Seam 1** | Intent & Glossary (`GLOSSARY.md`) | `skills/lam-grill/SKILL.md` | `references/before-code-playbooks.md` | `agents/standards-arch-reviewer.md` |
+| **Seam 2** | Quality Floor (`CONSTRAINTS.md`) | `skills/lam-constraints/SKILL.md` | `references/before-code-playbooks.md` | `agents/comment-sicko.md` |
+| **Seam 3** | Spec & Interface (`SPEC.md`) | `skills/lam-spec/SKILL.md`, `skills/lam-architect/SKILL.md` | `references/before-code-playbooks.md` | `agents/spec-doubt-reviewer.md` |
+| **Seam 4** | Tracer-Bullet Ticket Graph | `skills/lam-tickets/SKILL.md` | `references/before-code-playbooks.md` | `agents/lam-coder.md` |
+| **Seam 5** | SDD + Seam-TDD Slice | `skills/lam-build/SKILL.md`, `skills/lam-debug/SKILL.md`, `skills/lam-perf/SKILL.md` | `references/during-code-playbooks.md` | `agents/lam-coder.md`, `agents/test-engineer.md`, `agents/web-performance-auditor.md` |
+| **Seam 6** | Hygiene, Doubt & Interrogate | `skills/lam-review/SKILL.md` | `references/after-code-playbooks.md` | `agents/spec-doubt-reviewer.md`, `agents/standards-arch-reviewer.md`, `agents/test-engineer.md` |
+| **Seam 7** | Shipped PR & 5-Layer Retro | `skills/lam-ship/SKILL.md`, `skills/lam-retro/SKILL.md` | `references/after-code-playbooks.md` | `agents/security-auditor.md`, `agents/test-engineer.md` |
 
-## Context Pointers (Load Only the Active Branch)
+## 2. Adaptive Execution Modes & Standalone Skill Portability
 
-- **24 Principles, Deep-Module Vocabulary & `GLOSSARY.md`/`ADR` Rules**: Read `references/principles-and-vocabulary.md` when naming types, designing module seams, updating `GLOSSARY.md`, or checking the 24 `pstack` principles.
-- **Seam 0-4 (Before Code Playbooks)**: Read `references/before-code-playbooks.md` for `Investigation`, `Idea Refine`, `Frontier Grilling`, `Prototype`, `Wayfinder`, `Constraints`, `Spec`, `Architect`, and `Tracer-Bullet Tickets`.
-- **Seam 5 (During Code Playbooks)**: Read `references/during-code-playbooks.md` for `Feature (SDD + Seam-TDD)`, `Implement-Spec Worktree Frontier`, `Arena Bakeoff`, `6-Phase Diagnosing Bugs`, `Refactoring/Deepening`, and `Perf Hillclimb`.
-- **Seam 6-7 (After Code Playbooks)**: Read `references/after-code-playbooks.md` for `Pre-Commit Hygiene (Deslop + Comment-Sicko + Floor Guard)`, `Dual-Axis + Doubt Review`, `Executable Interrogate & Blast Radius`, `DevTools/TLA+ Verification`, `Visual PR & Babysit`, `Production Ship & Migrations`, and `Environment Retro/Correct`.
-- **Subagent & Persona Contracts**: Read `references/agents-and-personas.md` before spawning `lam-coder`, `comment-sicko`, `spec-doubt-reviewer`, `standards-arch-reviewer`, `security-auditor`, `test-engineer`, or `web-performance-auditor`.
-- **Deterministic Scripts**: Run `bash scripts/floor-guard.sh [base-ref]` before every commit/review and `bash scripts/log-decision.sh <decisions.tsv> <phase> <decision> <why> <evidence> <result>` during autonomous/hillclimb loops.
+`lam-stack` does **not** force all 7 seams on every prompt. Select the execution tier that matches the user's invocation:
+- **A-La-Carte Mode (Single Slash Command or Standalone Skill)**: Invoking `/grill`, `/architect`, `/debug`, `/review`, `/perf`, or installing a single `skills/lam-*/` folder executes **only** that skill's seam. If `scripts/` or root contracts are absent in a standalone install, run the project's native test/lint commands.
+- **Fast-Track Mode (`< 30` lines, 1 file, clear intent)**: Route `Seam 0 (Anchor) -> Seam 5 (RED -> GREEN) -> Seam 6 (Floor Guard)`.
+- **Full 7-Seam Pipeline (`/lam` on multi-file features)**: Route sequentially across `Seam 0..7` gated by `bash scripts/seam-gate.sh check <0..7>`.
 
-## Standing Non-Negotiables
+## 3. Signature Output Style (Vibe-Coder Executive HUD)
 
-1. **In Your Own Words First (`pstack` + `agent-skills`)**: Open your first reply with the user's goal in plain words, `ASSUMPTIONS I'M MAKING`, and the smallest change expected to meet it. Repeat the goal in every subagent brief, PR `## Summary`, and final report.
-2. **Verbatim Playbook Todo Injection (`poteto-mode`)**: Match the incoming task to its playbook, open the corresponding reference file, and copy the playbook's steps **verbatim** into your active checklist. Never delete a non-applicable step; mark it `skip: <one-line reason>`.
-3. **Facts = Agent's Job; Decisions = Frontier Rounds (`mattpocock` + `pstack` + `addy`)**:
-   - Dispatch `how`/`why`/`research` subagents for codebase/doc facts and `prototype` for empirical UI/timing forks.
-   - For product ambiguity, state `HYPOTHESIS` + `CONFIDENCE: ~X%` and ask the unsettled **frontier** in numbered rounds (`Q1`, `Q2`), attaching `-> Recommended: <answer + rationale>` so `"yes"` approves the round in one turn.
-4. **Source-Driven + Seam-TDD Discipline (`addy` + `mattpocock`)**:
-   - Read exact dependency versions (`DETECT -> FETCH -> IMPLEMENT -> CITE` with `// Source: <deep-link>`) before writing framework code.
-   - Agree on public **seams** first (`codebase-design`). Write one failing DAMP behavioral test (`RED`), minimal code (`GREEN`), run `check:fast` + `floor-guard.sh`, and make an atomic ~100-line commit. Defer cross-module refactoring to the review/deepening stage.
-5. **Cold Adversarial Review (`doubt-driven-development` + `code-review` + `interrogate`)**:
-   - Strip the author's `CLAIM` and rationale when passing `ARTIFACT + CONTRACT` to `spec-doubt-reviewer`.
-   - Keep `Spec` and `Standards` review axes separate so neither masks the other.
-   - For high-stakes diffs, run `interrogate` in isolated worktrees where only findings proven by an executable failing command survive.
-6. **Unslopped Prose & 7-Item Comment Keep List (`unslop` + `comment-sicko`)**:
-   - Short declarative sentences in active voice. Zero em-dashes or en-dashes anywhere. Tag every claim in your report as `measured`, `inferred`, or `guess`.
-   - Delete all comments outside the 7-item keep list (License, proven external platform gotcha, `prettier-ignore`, documented `CONSTRAINTS.md` exception, public seam `JSDoc`/`OpenAPI`, Issue/ADR/RFC link, or `// Source: <url>`). Mark any workaround comment or `@ts-ignore`/`eslint-disable` as `MUST KILL` and fix the underlying code.
+Users judge agent quality by the clarity of your chat output, not just raw diffs. Format every reply with these 3 visual blocks:
+1. **Top HUD Bar**: `[L.A.M. v0.2.0 | Seam X/7: <Stage> | Mode: <A-La-Carte|Fast-Track|Full> | Confidence: X% (measured)]`
+2. **Real-World Impact (Zero Jargon)**: 2-3 plain-language bullets in the user's language stating what user behavior now works, what failure state is now impossible, and what changed.
+3. **Bottom Proof Receipt**: Compact verification line (`Tests: PASS | Floor Guard: 0 violations | Blast Radius: N files | Door: Two-Way`).
 
-## Common Rationalizations Guard
+## 4. Mechanical Enforcement Scripts & Contracts
 
-| Rationalization (Excuse) | Reality (L.A.M. Rule) |
+- Root Contracts: `CONSTRAINTS.md`, `GLOSSARY.md`, `SPEC.md`
+- Persona Registry: `references/agents-and-personas.md`
+- Mechanical Gates: `scripts/validate-lam.py`, `scripts/floor-guard.sh`, `scripts/seam-gate.sh`, `scripts/log-decision.sh`
+- Hook Enforcement: `hooks/hooks.json`, `hooks/pre-commit-guard.sh`, `hooks/session-start.sh`
+
+## Common Rationalizations
+
+| Rationalization | Reality (L.A.M. v0.2.0 Rule) |
 | :--- | :--- |
-| *"I'll take one plugin 1-to-1 and paste the others on top."* | Naive concatenation creates 3 competing routers, 40k context bloat, and contradictory TDD/interview rules. Route through the 7-Seam State Machine and Two-Load Disclosure. |
-| *"I'll ask 8 clarifying questions one per turn before starting."* | Serial 1-by-1 questions burn 8 user turns; asking for codebase facts wastes human attention. Look up facts via subagents and ask the whole unsettled decision frontier in 1 numbered round with recommended defaults. |
-| *"I can theorize why the bug happens by reading the file."* | No red-capable command, no hypothesis (`diagnosing-bugs` Phase 1 hard gate). Build a fast deterministic repro loop that goes RED first. |
-| *"Adding one `@ts-ignore` or null guard fixes the crash."* | Silencing a check violates `CONSTRAINTS.md` Floor and `principle-fix-root-causes`. Trace the corrupt state to its source and reshape the domain type. |
+| *"I will duplicate the entire orchestrator into root `SKILL.md`."* | Word-for-word duplication between `SKILL.md` and `skills/lam-mode/SKILL.md` violates DRY structure. Keep `SKILL.md` under 90 lines and delegate to `skills/lam-mode/SKILL.md`. |
+| *"I can skip `seam-gate.sh` and start coding before `SPEC.md` is locked."* | Every Full-Pipeline Seam transition is mechanically gated by `bash scripts/seam-gate.sh check <0..7>`. |
 
-## Verification & Exit Criteria
+## Verification
 
-- [ ] Active playbook steps copied verbatim into checklist; every step `[x]` verified with runtime output or marked `skip: <reason>`.
-- [ ] `bash scripts/floor-guard.sh` exits `0` (zero new suppressions, zero `.skip` tests, zero stubs, zero `[DEBUG-xxxx]` tags).
-- [ ] All seam tests, typechecks, linters, and real-surface checks (CLI PTY or isolated Chrome DevTools MCP with zero console errors/warnings) pass.
-- [ ] Diff passed `deslop`, `comment-sicko`, and separated `Spec-Doubt` + `Standards-Arch` review.
+- [ ] `python3 scripts/validate-lam.py` passes Tier 1, Tier 2, and Tier 3 checks with 0 errors.
+- [ ] `bash scripts/floor-guard.sh --self-test && bash scripts/floor-guard.sh` exits `0`.
+- [ ] `bash scripts/seam-gate.sh check 7` verifies all 7 Seam artifacts on disk.

@@ -1,0 +1,4 @@
+description = "Package deterministic Seam state, verification proof, and Decision Trail entries for clean role or session handoff."
+prompt = """
+Reference references/after-code-playbooks.md, run `python3 scripts/validate-lam.py && bash scripts/floor-guard.sh`, verify `bash scripts/seam-gate.sh check 7`, and append a HANDOFF record via `bash scripts/log-decision.sh`.
+"""

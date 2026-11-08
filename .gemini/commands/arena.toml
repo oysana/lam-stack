@@ -1,0 +1,4 @@
+description = "Spawn isolated arena git worktrees for parallel peer model evaluation against a shared seam contract."
+prompt = """
+Reference references/before-code-playbooks.md and run `bash scripts/seam-gate.sh worktree arena <slug>` to evaluate competing peer implementations against shared DAMP seam tests.
+"""

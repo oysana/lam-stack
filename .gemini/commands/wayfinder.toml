@@ -1,0 +1,4 @@
+description = "Run structured Frontier Rounds at Seam 0 and Seam 1 to burn down ambiguity and lock GLOSSARY.md."
+prompt = """
+Reference references/before-code-playbooks.md and agents/architect.md to execute Frontier Rounds across Domain Scope, Data Shapes, Failure Modes, and Quality Floor constraints.
+"""

@@ -1,3 +1,9 @@
+---
+name: agents-and-personas
+description: Canonical subagent orchestration rules and specialist persona contracts across all 7 L.A.M. Stack v0.2.0 agents.
+version: 0.2.0
+---
+
 # L.A.M. Stack: Subagents & Specialist Personas (`agents-and-personas.md`)
 
 This reference defines the exact subagent contracts and prompts from Lauren Tan's `pstack`, Addy Osmani's `agent-skills`, and Matt Pocock's `skills`.
@@ -7,6 +13,17 @@ This reference defines the exact subagent contracts and prompts from Lauren Tan'
 1. **The Coordinator Owns the Playbook**: The main chat session runs the L.A.M. Playbook, owns the checklist, and merges subagent outputs. Subagents never spawn subagents (preventing nested paraphrasing chains).
 2. **Always Start with a Fresh Context Window (`mattpocock` + `pstack`)**: Give every new task, ticket, or review pass to a fresh subagent with consolidated scope and **file pointers** (`SPEC.md`, `GLOSSARY.md`, `CONSTRAINTS.md`, branch/diff range), never pasted multi-file dumps.
 3. **Never Trust a Subagent Summary Blindly (`pstack`)**: Inspect the subagent's diff and verification command output yourself before reporting completion.
+4. **4 Model Roles (`worker`/`builder`/`judge`/`peer`) to 7 Specialist Personas Routing Matrix**:
+
+| Specialist Persona (`agents/*.md`) | Primary Model Role | Permitted Worktree / Context Mode | Input Handoff Contract | Survival / Exit Gate |
+| :--- | :--- | :--- | :--- | :--- |
+| **`lam-coder.md`** | `builder` (or `worker` on mechanical tasks) | Main tree or `/implement-spec` / `swarm` worktree (`seam-gate.sh worktree swarm <slug>`) | `SKILL.md`, `GLOSSARY.md`, `CONSTRAINTS.md`, active ticket | `check:task` (`validate-lam.py` + `floor-guard.sh` exit `0`) |
+| **`comment-sicko.md`** | `worker` (hygiene assassin) | Read-only diff inspection + comment surgical removal | Scoped files or `git diff main...HEAD` | 7-Item Keep List + `MUST KILL` flags on workarounds |
+| **`spec-doubt-reviewer.md`** | `judge` (Cold Spec-Doubt) | Fresh context with author `CLAIM` and rationale stripped | `ARTIFACT` (`git diff`) + `CONTRACT` (`SPEC.md`, `GLOSSARY.md`) | Spec line quotes + empty/boundary/error/concurrency audit |
+| **`standards-arch-reviewer.md`** | `judge` (5-Axis + 12 Smells) | Fresh context in parallel with `spec-doubt-reviewer` | `git diff` + `CONSTRAINTS.md` + `GLOSSARY.md` | Deletion Test, `<30s` Reader Load, condition-inversion check |
+| **`security-auditor.md`** | `judge` (STRIDE / OWASP / LLM) | Fresh context during `/ship` or security-sensitive diffs | Trust boundary map + diff + lockfiles | Concrete PoC required for every `Critical`/`High` finding |
+| **`test-engineer.md`** | `judge` + `peer` (Seam-TDD & `/interrogate`) | Main tree or isolated `interrogate` worktree (`seam-gate.sh worktree interrogate <slug>`) | Public seam signatures + test suite | 80/15/5 Pyramid, DAMP, 5 scenarios, Prove-It Red-Loop |
+| **`web-performance-auditor.md`** | `judge` (Metric-Honesty) | Lab/Trace/DB benchmark harness | 7-point `benchmark-checklist` + `EXPLAIN ANALYZE` | Zero invented numbers; CWV & query plan proof |
 
 ---
 

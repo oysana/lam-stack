@@ -1,3 +1,9 @@
+---
+name: during-code-playbooks
+description: Seam 5 during-code playbooks including Source-Driven Development, Seam-TDD, isolated git worktrees, root-cause debugging, refactoring, and performance hillclimbing.
+version: 0.2.0
+---
+
 # L.A.M. Stack: During-Code Playbooks (Во время кода)
 
 This file governs all implementation, documentation-grounded coding (`source-driven-development`), seam-driven TDD (`tdd`), parallel worktree execution (`implement-spec`, `arena`, `swarm`), systematic root-cause debugging (`diagnosing-bugs` + `bug-fix`), refactoring (`improve-codebase-architecture`), and scientific performance hillclimbing.

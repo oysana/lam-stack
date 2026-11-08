@@ -1,4 +1,4 @@
-description = "Invoke the master L.A.M. coordinator on the current task."
+description = "Invoke the master L.A.M. v0.2.0 coordinator on the current task."
 prompt = """
 Read and follow `skills/lam-mode/SKILL.md` to execute this request:
 {{args}}

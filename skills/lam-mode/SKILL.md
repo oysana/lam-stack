@@ -1,27 +1,27 @@
 ---
 name: lam-mode
-description: Master L.A.M. coordinator (built on Lauren Tan's poteto-mode + Matt Pocock's invocation + Addy Osmani's using-agent-skills). Routes tasks across the 7-Seam Artifact State Machine, injects verbatim playbook steps, and enforces the 24 principles.
+description: Master L.A.M. v0.2.0 coordinator (built on Lauren Tan's poteto-mode + Matt Pocock's invocation + Addy Osmani's using-agent-skills). Routes tasks across the 7-Seam Artifact State Machine, injects verbatim playbook steps, and enforces the 24 principles.
 disable-model-invocation: true
 ---
 
-# L.A.M. Stack (Lauren Tan + Addy Osmani + Matt Pocock)
+# L.A.M. Stack v0.2.0 (Lauren Tan + Addy Osmani + Matt Pocock)
 
-Self-bootstrapped engineering workflow designed by applying L.A.M.'s own principles (`principle-attack-the-premise`, `principle-redesign-from-first-principles`, `codebase-design` Deep Modules, `writing-for-agents` Two-Load Hierarchy, and `doubt-driven-development`) to merge all three libraries without context bloat or rule collisions.
+Self-bootstrapped v0.2.0 engineering workflow designed by applying L.A.M.'s own principles (`principle-attack-the-premise`, `principle-redesign-from-first-principles`, `codebase-design` Deep Modules, `writing-for-agents` Two-Load Hierarchy, and `doubt-driven-development`) to merge all three libraries without context bloat or rule collisions.
 
-## Why L.A.M. Replaces Naive 1-to-1 Patching (The What & How Upgrade)
+## Why L.A.M. v0.2.0 Replaces Naive 1-to-1 Patching (The What & How Upgrade)
 
 1. **The 7-Seam Artifact State Machine (`principle-model-the-domain` + `codebase-design`)**:
-   Instead of loose "Before / During / After" buckets, every workflow is a **Deep Module** whose public interface is a concrete repo artifact (**Seam**). No phase starts until its input seam is verified:
+   Instead of loose "Before / During / After" buckets, every workflow is a **Deep Module** whose public interface is a concrete repo artifact (**Seam**). No phase starts until its input seam is verified via `bash scripts/seam-gate.sh check <0..7>`:
    - **Seam 0 (Code Anchor)**: `how` + `why` + `research` -> verified `file:line` mechanics and git/ADR history.
-   - **Seam 1 (Intent & Domain)**: `lam-grill` (`grilling` + `interview-me` + `domain-modeling`) -> 6-line Intent Lock + pure domain `GLOSSARY.md` + 3-gate `docs/adr/NNNN-slug.md`.
+   - **Seam 1 (Intent & Glossary)**: `lam-grill` (`grilling` + `interview-me` + `domain-modeling`) -> 6-line Intent Lock + pure domain `GLOSSARY.md` + 3-gate ADR.
    - **Seam 2 (Quality Floor)**: `lam-constraints` (`/constraints` + `setup-ts-deep-modules`) -> `CONSTRAINTS.md` + `scripts/floor-guard.sh` + `check:fast`/`check:task`/`check:full`.
-   - **Seam 3 (Spec & Interface Contract)**: `lam-spec` + `lam-architect` (`/to-spec` + `SPEC.md` + `architect` via `arena` Design-It-Twice) -> confirmed public test seams + caller-first interface sketch + 3-tier boundaries.
-   - **Seam 4 (Executable Ticket Frontier)**: `lam-tickets` (`/to-tickets` + `wayfinder` + `triage`) -> vertical tracer-bullet tickets (or `Expand -> Migrate -> Contract` batches) with explicit `Blocked by` edges and 4-item Throughput Checkpoint.
-   - **Seam 5 (Verified Slice Commits)**: `lam-build` / `lam-debug` / `lam-perf` -> `SDD` (`// Source:` cited) + `Seam-TDD` (`RED -> GREEN`) + atomic ~100-line commits + `decisions.tsv` audit trail.
-   - **Seam 6 (Clean, Dual-Axis + Interrogated Diff)**: `lam-review` -> `deslop` + `comment-sicko` (7-item keep list) + `floor-guard.sh` + parallel `Spec-Doubt` (stripped of `CLAIM`) & `Standards-Arch` (5 axes + 12 Fowler smells) + executable worktree `interrogate` + real-surface verification.
-   - **Seam 7 (Shipped PR & Hardened Environment)**: `lam-ship` + `lam-retro` -> visual `pr` (Door + Blast Radius) + `/ship` canary/SLO gates + `/retro` + `correct` (5-layer mistake hardening).
+   - **Seam 3 (Spec & Interface Sketch)**: `lam-spec` + `lam-architect` (`/to-spec` + `SPEC.md` + `architect` via `arena` Design-It-Twice) -> confirmed public test seams + caller-first interface sketch + 3-tier boundaries.
+   - **Seam 4 (Tracer-Bullet Ticket Graph)**: `lam-tickets` (`/to-tickets` + `wayfinder` + `triage`) -> vertical tracer-bullet tickets (or `Expand -> Migrate -> Contract` batches) with explicit `Blocked by` edges and 4-item Throughput Checkpoint.
+   - **Seam 5 (SDD + Seam-TDD Slice)**: `lam-build` / `lam-debug` / `lam-perf` -> `SDD` (`// Source:` cited) + `Seam-TDD` (`RED -> GREEN`) + atomic ~100-line commits + `decisions.tsv` audit trail.
+   - **Seam 6 (Hygiene, Dual-Axis Doubt & Worktree Interrogate)**: `lam-review` -> `deslop` + `comment-sicko` (7-item keep list) + `floor-guard.sh` + parallel `Spec-Doubt` (stripped of `CLAIM`) & `Standards-Arch` (5 axes + 12 Fowler smells) + executable worktree `interrogate` + real-surface verification.
+   - **Seam 7 (Shipped PR & 5-Layer Retro Hardening)**: `lam-ship` + `lam-retro` -> visual `pr` (Door + Blast Radius) + `/ship` canary/SLO gates + `/retro` + `correct` (5-layer mistake hardening).
 
-2. **Two-Load Progressive Disclosure (`writing-for-agents` + `.agents/invocation.md`)**:
+2. **Two-Load Progressive Disclosure (`writing-for-agents` + `SKILL.md`)**:
    - **Context Load Protection**: Keep permanent context under 120 lines. Load **only** the single leaf playbook or reference file required for the current seam.
    - **Cognitive Load Allocation**: Spend human turns strictly on high-leverage product intent (Seam 1), seam confirmation (Seam 3), and irreversible one-way doors (Seam 7). Never ask the human for facts discoverable via `how`/`why`/`research` or empirical forks testable via `prototype`.
 
@@ -51,10 +51,20 @@ Self-bootstrapped engineering workflow designed by applying L.A.M.'s own princip
 6. **Unslopped Prose & 7-Item Comment Keep List (`unslop` + `comment-sicko`)**:
    - Short declarative sentences in active voice. Zero em-dashes or en-dashes anywhere. Tag every claim in your report as `measured`, `inferred`, or `guess`.
    - Delete all comments outside the 7-item keep list (License, proven external platform gotcha, `prettier-ignore`, documented `CONSTRAINTS.md` exception, public seam `JSDoc`/`OpenAPI`, Issue/ADR/RFC link, or `// Source: <url>`). Mark any workaround comment or `@ts-ignore`/`eslint-disable` as `MUST KILL` and fix the underlying code.
+7. **Adaptive Execution Routing (A-La-Carte vs. Fast-Track vs. Full 7-Seam)**:
+   - **A-La-Carte Mode**: When the user invokes a single slash command (`/grill`, `/architect`, `/debug`, `/review`, `/perf`, `/ship`) or installs a standalone `skills/lam-*/` folder, execute **only** that skill's seam without forcing upstream seams.
+   - **Fast-Track Mode**: For `< 30` line single-file changes with clear requirements, run `Seam 0 (Anchor) -> Seam 5 (RED -> GREEN) -> Seam 6 (Floor Guard)`.
+   - **Full 7-Seam Pipeline**: For multi-file features, new APIs, or ambiguous specs, run `Seam 0` through `Seam 7`.
+8. **Signature Output Protocol (Vibe-Coder Executive HUD)**:
+   - Every response must look unmistakably crisp to a human scanning only the chat output:
+     - **Header**: `[L.A.M. v0.2.0 | Seam X/7: <Stage> | Mode: <A-La-Carte|Fast-Track|Full> | Confidence: X% (measured)]`
+     - **Human Impact Summary (2-3 bullets, zero AST jargon)**: State in the user's language what user flow works now, what failure state is eliminated, and why it is safe.
+     - **Decision Frontier Card (when asking questions)**: Numbered `Q1`, `Q2` options with `-> Recommended: <default>` so `"yes"` or `"ок"` approves in one turn.
+     - **Bottom Proof Receipt**: `Tests: <pass/total> | Floor Guard: 0 violations | Blast Radius: <N files> | Door: <Two-Way|One-Way>`.
 
 ## Common Rationalizations Guard
 
-| Rationalization (Excuse) | Reality (L.A.M. Rule) |
+| Rationalization (Excuse) | Reality (L.A.M. v0.2.0 Rule) |
 | :--- | :--- |
 | *"I'll take one plugin 1-to-1 and paste the others on top."* | Naive concatenation creates 3 competing routers, 40k context bloat, and contradictory TDD/interview rules. Route through the 7-Seam State Machine and Two-Load Disclosure. |
 | *"I'll ask 8 clarifying questions one per turn before starting."* | Serial 1-by-1 questions burn 8 user turns; asking for codebase facts wastes human attention. Look up facts via subagents and ask the whole unsettled decision frontier in 1 numbered round with recommended defaults. |

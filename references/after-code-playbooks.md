@@ -1,3 +1,9 @@
+---
+name: after-code-playbooks
+description: Seam 6 and Seam 7 after-code playbooks including pre-commit hygiene, Dual-Axis Spec-Doubt review, Interrogate Worktree audits, visual PR shaping, /ship gates, and 5-Layer Retro Hardening.
+version: 0.2.0
+---
+
 # L.A.M. Stack: After-Code Playbooks (После кода)
 
 This file governs pre-commit hygiene (`deslop` + `no-comments` + `floor-guard`), fresh-context adversarial verification (`doubt-driven-development` + `interrogate` + `blast-radius`), the unified Dual-Axis + 5-Dimension code review (`lam-review`), runtime/formal verification (`browser-testing-with-devtools` + `create-verification-skill` + `statechart`), PR formatting (`pr` + `unslop` + `technical-writing`), production launch (`/ship`), and post-session environment retrospectives (`/retro` + `/handoff` + `/wait-what`).
@@ -125,7 +131,13 @@ Code that follows every coding standard can still implement the wrong spec; code
      - **Blast Radius:** <Low / Medium / High - affected modules, callers, and rollback command>
      - **Noticed But Not Touching:** <orthogonal issues intentionally left out of scope, or "None">
      ```
-3. **PR Babysitting (`playbooks/babysit.md`)**:
+3. **Enforce the 28 `unslop` Prose Rules (`pstack/unslop` + `technical-writing`)**:
+   - **Rules 1-5 (Typography & Punctuation)**: (1) Zero em-dashes; (2) Zero en-dashes; (3) Standard ASCII hyphens/colons only; (4) No decorative emoji bullets in technical reports; (5) Tabular or monospace formatting for all paths, commands, and metrics.
+   - **Rules 6-10 (Epistemic Tagging)**: (6) Tag every factual claim as `measured`, `inferred`, or `guess`; (7) Never state unrun code behavior as fact; (8) Cite exact `file:line` pointers; (9) Report exact command exit codes; (10) Distinguish `Lab`, `Field`, and `Trace` telemetry.
+   - **Rules 11-18 (AI Filler & Hedging Ban)**: Ban (11) *"delve/tapestry/testament"*; (12) *"importantly/crucially/notably"*; (13) *"it is worth noting"*; (14) *"comprehensive/robust/seamless"* without metric proof; (15) throat-clearing openings (*"Certainly! Let's..."*); (16) restating the prompt back as praise; (17) vague passive apologies; (18) speculative future roadmaps not in scope.
+   - **Rules 19-24 (Active Voice & Sentence Mechanics)**: (19) Actor-verb-object active voice; (20) One main clause per sentence; (21) Lead with the verdict or number; (22) Use exact `GLOSSARY.md` nouns; (23) Reject all `_Avoid:_` synonyms; (24) Keep paragraphs `<= 4` lines.
+   - **Rules 25-28 (Evidence & Structural Precision)**: (25) Pair every `Before` metric with an `After` metric and units; (26) State `Two-Way Door` vs `One-Way Door`; (27) State explicit rollback command; (28) Isolate out-of-scope observations under `Noticed But Not Touching`.
+4. **PR Babysitting (`playbooks/babysit.md`)**:
    - When asked to drive a PR to merge-ready, declare mode (`drive`, `background`, `threads-only`, `check`) and work the merge frontier in strict order: **1. Merge conflicts -> 2. Review threads -> 3. CI checks (`fix-ci`)**.
    - Triage automated bot comments skeptically: fix genuine defects, and dismiss false positives with a concrete technical explanation rather than churning code.
 

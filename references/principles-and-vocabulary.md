@@ -1,3 +1,9 @@
+---
+name: principles-and-vocabulary
+description: Lauren Tan's 24 pstack principles, Matt Pocock's Deep-Module vocabulary, Addy Osmani's foundational laws, and the Polyglot M=R Data-Shape Matrix.
+version: 0.2.0
+---
+
 # L.A.M. Stack: Principles, Deep-Module Vocabulary & Domain Modeling
 
 This reference combines 1-to-1:
@@ -196,3 +202,61 @@ Every change across the L.A.M. Stack must satisfy both the task-specific **Accep
 3. **Integration**: Builds cleanly, migrations follow zero-downtime `Expand -> Migrate -> Contract`, and observability signals (`requestId`, structured logs, bounded metrics) are wired where applicable.
 4. **Documentation**: `GLOSSARY.md`, `SPEC.md`, public JSDoc/OpenAPI contracts, and `docs/adr/` reflect any changed domain terms, interfaces, or hard-to-reverse decisions.
 5. **Ship-Readiness**: Blast radius and door type (One-Way vs. Two-Way Door) are stated, feature flags or rollback paths are verified, and independent review gates have passed.
+
+---
+
+## Part 5: Polyglot $M = R$ Data-Shape Matrix (Make Illegal States Unrepresentable)
+
+Model State ($M$) equals Reality ($R$) when the cardinality of representable values in your type system equals the cardinality of valid domain states ($|M| = |R|$). Every external input must be parsed at the outer boundary into a narrow domain type so illegal states cannot be constructed:
+
+| Language | Boundary Parsing Idiom | Illegal-State Elimination ($M = R$) | Identity & Seam Enforcement | Forbidden Anti-Pattern |
+| :--- | :--- | :--- | :--- | :--- |
+| **TypeScript** | `Zod` / `Valibot` `.safeParse(raw)` at outer I/O edge | Discriminated unions (`{ kind: 'draft' } \| { kind: 'settled'; receiptHash: string }`) | Branded nominal IDs (`string & { readonly __brand: unique symbol }`) | `as any`, `as unknown as`, optional flag bags |
+| **Python** | `Pydantic v2` `TypeAdapter` with `ConfigDict(frozen=True, extra='forbid')` | `Annotated` + `Literal` discriminated unions (`Field(discriminator='kind')`) | `typing.Protocol` structural seams + `NewType` IDs | Raw `dict[str, Any]`, `# type: ignore`, `except: pass` |
+| **Go** | Constructor validation `NewOrder(raw) (Order, error)` at package edge | Opaque structs with unexported fields (`type Order struct { id orderID }`) | Small consumer-defined interfaces at module boundaries | Exported mutable struct fields, uninitialized zero-values |
+| **Rust** | `TryFrom<RawPayload>` and `serde(try_from = ...)` | Algebraic `enum` state machines + exhaustive `match` | Tuple newtypes (`pub struct OrderId(NonZeroU64)`) | `todo!()`, `unimplemented!()`, `.unwrap()` on wire input |
+| **SQL** | `INSERT ... ON CONFLICT (idempotency_key) DO UPDATE` | `NOT NULL`, `CHECK` constraints, and strict foreign keys | `EXPLAIN (ANALYZE, BUFFERS)` query-plan verification gate | Nullable status soup, read-modify-write TOCTOU races |
+
+### Canonical Polyglot Boundary Snippets
+
+- **TypeScript**:
+  ```typescript
+  export type OrderId = string & { readonly __brand: unique symbol };
+  export const OrderStateSchema = z.discriminatedUnion("kind", [
+    z.object({ kind: z.literal("draft"), savedAtIso: z.string().datetime() }),
+    z.object({ kind: z.literal("settled"), receiptHash: z.string().min(32) }),
+  ]);
+  ```
+- **Python**:
+  ```python
+  class SettledOrder(BaseModel):
+      model_config = ConfigDict(frozen=True, extra="forbid")
+      kind: Literal["settled"] = "settled"
+      receipt_hash: str = Field(min_length=32)
+
+  class OrderStoreSeam(Protocol):
+      def save(self, order: SettledOrder) -> None: ...
+  ```
+- **Go**:
+  ```go
+  type SettledOrder struct { id string; receiptHash string }
+  func NewSettledOrder(id, hash string) (SettledOrder, error) {
+      if id == "" || len(hash) < 32 { return SettledOrder{}, errors.New("invalid order") }
+      return SettledOrder{id: id, receiptHash: hash}, nil
+  }
+  ```
+- **Rust**:
+  ```rust
+  pub struct OrderId(pub std::num::NonZeroU64);
+  pub enum OrderState { Draft { saved_at_ms: u64 }, Settled { receipt_hash: [u8; 32] } }
+  ```
+- **SQL**:
+  ```sql
+  EXPLAIN (ANALYZE, BUFFERS)
+  INSERT INTO invoice_settlements (invoice_id, idempotency_key, amount_cents, receipt_hash)
+  VALUES ('inv_01', 'idem_9981', 4500, 'a9f4e2c1b8d7e6f5a4c3b2d1e0f9a8b7')
+  ON CONFLICT (idempotency_key) DO UPDATE SET settled_at = invoice_settlements.settled_at
+  RETURNING invoice_id, receipt_hash, settled_at;
+  ```
+
+

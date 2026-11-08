@@ -1,0 +1,4 @@
+description = "Spin up an isolated Interrogate Worktree to stress-test, mutate, and adversarially audit a candidate slice."
+prompt = """
+Activate skills/lam-review/SKILL.md and run `bash scripts/seam-gate.sh worktree interrogate <slug>` to perform condition-inversion mutation checks and Cold Spec-Doubt verification.
+"""

@@ -10,6 +10,29 @@
           }
         ]
       }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "pattern": "(git\\s+commit|gh\\s+pr\\s+create)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT:-.}/hooks/pre-commit-guard.sh\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT:-.}/scripts/validate-lam.py\" && bash \"${CLAUDE_PLUGIN_ROOT:-.}/scripts/floor-guard.sh\""
+          }
+        ]
+      }
     ]
   }
 }

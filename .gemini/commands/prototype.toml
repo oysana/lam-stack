@@ -1,0 +1,4 @@
+description = "Execute a time-boxed feasibility spike in an isolated spec worktree to extract verified seam signatures."
+prompt = """
+Reference references/before-code-playbooks.md and run `bash scripts/seam-gate.sh worktree spec <slug>` to probe data shapes and extract verified M=R interfaces into SPEC.md.
+"""
