@@ -1,7 +1,7 @@
 ---
 name: after-code-playbooks
 description: Seam 6 and Seam 7 after-code playbooks including pre-commit hygiene, Dual-Axis Spec-Doubt review, Interrogate Worktree audits, visual PR shaping, /ship gates, and 5-Layer Retro Hardening.
-version: 0.2.0
+version: 0.2.1
 ---
 
 # L.A.M. Stack: After-Code Playbooks (После кода)

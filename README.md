@@ -1,9 +1,9 @@
-# L.A.M. Stack v0.2.0
+# L.A.M. Stack v0.2.1
 
 > **The Unified Principal-Engineer Plugin for AI Coding Agents**
-> Synthesizing **Lauren Tan's `pstack`** (`poteto/pstack` & `pstack-claude`), **Matt Pocock's `skills`** (`mattpocock/skills`), and **Addy Osmani's `agent-skills`** (`addyosmani/agent-skills`) into one zero-conflict, 96%-lower-token architecture (`~1,500` startup tokens vs. `~40,000` naive multi-plugin bloat).
+> A compressed synthesis of **`pstack`** (`chhoumann/t3-pstack`), **Matt Pocock's `skills`** (`mattpocock/skills`), and **Addy Osmani's `agent-skills`** (`addyosmani/agent-skills`) into one zero-conflict plugin with a mechanical quality floor.
 
-Compatible out of the box with **Claude Code**, **Cursor**, **OpenCode**, **OpenAI Codex CLI**, **Devin**, **Gemini CLI**, and **Antigravity**.
+**Measured startup surface** (YAML frontmatter bytes that harnesses preload as skill metadata, counted 2026-11-08 on v0.2.1): L.A.M. carries `~4.3 KB` across 13 skills + router, vs `~36 KB` for all three source packs combined (66 + 39 + 25 skills). That is roughly `1.1k` vs `9k` tokens at 4 bytes/token, and smaller than any single source pack (pstack `~17.8 KB`, mattpocock `~8.0 KB`, addyosmani `~10.3 KB`). Method and raw counts are in `evals/startup-surface.md`.
 
 ---
 
@@ -12,7 +12,8 @@ Compatible out of the box with **Claude Code**, **Cursor**, **OpenCode**, **Open
 - **[Part 1: For Humans & Vibe Coders](#part-1-for-humans--vibe-coders)**
   - [Why L.A.M. Stack Exists](#why-lam-stack-exists)
   - [3 Execution Modes (Autonomous, A-La-Carte, Fast-Track)](#3-execution-modes)
-  - [1-Minute Installation (Full Stack or Single Skill)](#1-minute-installation)
+  - [Installation](#installation)
+  - [What This Is (and Is Not)](#what-this-is-and-is-not)
   - [Slash Commands & Skills Matrix](#slash-commands--skills-matrix)
   - [What You See in Terminal (Vibe-Coder Executive HUD)](#what-you-see-in-terminal-vibe-coder-executive-hud)
 - **[Part 2: For AI Coding Agents (Execution Contract)](#part-2-for-ai-coding-agents-execution-contract)**
@@ -34,7 +35,7 @@ Installing `pstack`, `mattpocock/skills`, and `addyosmani/agent-skills` side-by-
 2. **Routing Collisions**: Competing TDD, planning, and code-review skills fight over the same triggers.
 3. **Meta-Prompt Fatigue**: Without a unified discipline layer, you still have to paste 50-line "senior engineer" prompts (`prove facts with data`, `make modules deep`, `find implicit state machines`) on every turn.
 
-**L.A.M. Stack v0.2.0** solves all three:
+**L.A.M. Stack v0.2.1** solves all three:
 - **Two-Load Progressive Disclosure (`~1,500` tokens at start)**: Loads only a `< 90`-line router (`SKILL.md`) at session start and pulls leaf playbooks on demand.
 - **Built-In Senior Engineering Physics**: Automatically enforces Data-First Probing, Ousterhout Deep Modules (Deletion Test + Interface Shrink), First-Principles State Machine Discovery ($M = R$), and 17 Mechanical Anti-Slop Traps (`scripts/floor-guard.sh`).
 - **Executive Terminal Output**: Vibe coders do not want to read walls of AI prose. Every response prints a clean **Executive HUD**, a 3-bullet summary, a decision/diff table, and raw terminal proof.
@@ -53,48 +54,73 @@ You never have to choose between Lauren Tan's autonomous orchestration and Matt 
 
 ---
 
-## 1-Minute Installation
+## Installation
 
-### Option A: Install Full Plugin (Recommended)
+### Claude Code (validated: `claude plugin validate` passes on v0.2.1)
 
-#### 1. Claude Code
-```bash
-git clone https://github.com/your-org/lam-stack.git
-# Inside Claude Code:
-/plugin add ./lam-stack
-
-# Or copy directly into your project root:
-cp -r lam-stack/.claude lam-stack/.claude-plugin lam-stack/skills lam-stack/agents lam-stack/references lam-stack/hooks lam-stack/scripts lam-stack/SKILL.md lam-stack/AGENTS.md lam-stack/CONSTRAINTS.md lam-stack/GLOSSARY.md lam-stack/SPEC.md lam-stack/decisions.tsv ./
+```text
+/plugin install lam-stack --marketplace oysana/lam-stack
 ```
 
-#### 2. Cursor
-```bash
-cp -r lam-stack/.cursor lam-stack/.cursor-plugin lam-stack/skills lam-stack/agents lam-stack/references lam-stack/scripts lam-stack/SKILL.md lam-stack/AGENTS.md lam-stack/CONSTRAINTS.md lam-stack/GLOSSARY.md lam-stack/SPEC.md ./
+Or register the marketplace first, then install from the `/plugin` UI:
+
+```text
+/plugin marketplace add oysana/lam-stack
+/plugin install lam-stack@lam-stack
 ```
 
-#### 3. OpenCode / OpenAI Codex CLI / Devin
-```bash
-cp -r lam-stack/.codex-plugin lam-stack/skills lam-stack/agents lam-stack/references lam-stack/scripts lam-stack/SKILL.md lam-stack/AGENTS.md lam-stack/CONSTRAINTS.md lam-stack/GLOSSARY.md lam-stack/SPEC.md ./
-```
-
-#### 4. Gemini CLI / Antigravity
-```bash
-cp -r lam-stack/.gemini lam-stack/skills lam-stack/agents lam-stack/references lam-stack/scripts lam-stack/SKILL.md lam-stack/AGENTS.md lam-stack/CONSTRAINTS.md lam-stack/GLOSSARY.md lam-stack/SPEC.md ./
-```
-
-### Option B: A-La-Carte Installation (Download Only the Skills You Want)
-
-Every skill in `skills/lam-*/SKILL.md` is self-contained. If you only want specific skills (like Matt Pocock's `grill-me` or `tdd`), copy only those folders:
+### OpenCode (validated: `opencode.json` skills key, OpenCode v2.2.x)
 
 ```bash
-# Example: Install ONLY /grill (Interrogation) and /architect (M=R + Deep Modules)
-mkdir -p .claude/commands skills references
-cp lam-stack/skills/lam-grill/SKILL.md skills/
-cp lam-stack/skills/lam-architect/SKILL.md skills/
-cp lam-stack/.claude/commands/grill.md .claude/commands/
-cp lam-stack/.claude/commands/architect.md .claude/commands/
-cp lam-stack/references/principles-and-vocabulary.md references/
+git clone https://github.com/oysana/lam-stack ~/.local/share/lam-stack
 ```
+
+Add to your project `opencode.json`:
+
+```json
+{ "skills": ["~/.local/share/lam-stack/skills"] }
+```
+
+Or symlink the skill folders into `.claude/skills/` or `.agents/skills/`, which OpenCode auto-discovers.
+
+### Other harnesses (shipped by convention, not yet validated end-to-end)
+
+| Harness | Provided | Status |
+| :--- | :--- | :--- |
+| Cursor | `.cursor/rules/lam-mode.mdc` auto-attached rule + `skills/` | Untested on latest Cursor |
+| OpenAI Codex CLI | `AGENTS.md` + `skills/*/agents/openai.yaml` + `.codex-plugin/plugin.json` | Untested |
+| Gemini CLI | `.gemini/commands/*.toml` (18 mirrors) + `skills/` | Untested |
+| Devin / Antigravity | `AGENTS.md` + `skills/` | Untested |
+
+For these, copy `skills/`, `agents/`, `references/`, `scripts/`, and the root markdown contract files into your project, or point the harness's skill directory at them. File an issue if a mechanism needs adjusting.
+
+### A-La-Carte Installation
+
+Every skill in `skills/lam-*/SKILL.md` is self-contained. Copy only the folders you want:
+
+```bash
+mkdir -p .claude/skills .claude/commands
+cp -r lam-stack/skills/lam-grill lam-stack/skills/lam-architect .claude/skills/
+cp lam-stack/.claude/commands/grill.md lam-stack/.claude/commands/architect.md .claude/commands/
+```
+
+---
+
+## What This Is (and Is Not)
+
+L.A.M. is a compressed synthesis, not a superset. It keeps the overlapping core of the three source packs (routing, spec-doubt, TDD, review, ship discipline) and enforces it with deterministic scripts. It does not re-implement every upstream skill.
+
+**Derived from** (all MIT, notices in `LICENSE`):
+
+- `chhoumann/t3-pstack`: principles vocabulary, decision-trail logging, subagent topology, deslop and comment discipline.
+- `addyosmani/agent-skills`: persona roster, doubt-driven development, eval methodology, floor-guard precedent.
+- `mattpocock/skills`: grill/spec/tickets flow, invocation conventions, single-skill a-la-carte mode.
+
+**Not covered** (use the source packs for these):
+
+- From `pstack`: standalone `how`/`why`/`research`/`statechart`/`reflect`/`tdd` skills, orchestration and autopilot playbooks, formal verification, `benchmark-checklist`.
+- From `mattpocock/skills`: the `writing-*` family, `improve-codebase-architecture`, `wizard`, `wait-what`, standalone `pr`.
+- From `addyosmani/agent-skills`: `frontend-ui-engineering`, `browser-testing-with-devtools`, `ci-cd-and-automation`, `git-workflow-and-versioning`, `observability-and-instrumentation`, `deprecation-and-migration`, `context-engineering`, `interview-me`, `documentation-and-adrs`.
 
 ---
 
@@ -128,7 +154,7 @@ cp lam-stack/references/principles-and-vocabulary.md references/
 Every L.A.M. Stack response follows a strict visual output contract so you can verify progress in 5 seconds without reading raw code:
 
 ```text
-╭─ ⚡ L.A.M. STACK v0.2.0 ── [Seam 2: M=R & Deep Modules] ── [Role: Builder] ─╮
+╭─ ⚡ L.A.M. STACK v0.2.1 ── [Seam 2: M=R & Deep Modules] ── [Role: Builder] ─╮
 │ [✓ Intake] ──▶ [✓ Spec] ──▶ [● M=R] ──▶ [○ Plan] ──▶ [○ Slice] ──▶ [○ Ship] │
 ╰─────────────────────────────────────────────────────────────────────────────╯
 
@@ -152,7 +178,7 @@ Every L.A.M. Stack response follows a strict visual output contract so you can v
 
 # Part 2: For AI Coding Agents (Execution Contract)
 
-> **AGENT DIRECTIVE**: If you are an AI coding agent (Claude Code, Cursor, OpenCode, Codex, Devin, Gemini CLI, or Antigravity) operating inside a repository containing L.A.M. Stack v0.2.0, this section is your deterministic execution specification.
+> **AGENT DIRECTIVE**: If you are an AI coding agent (Claude Code, Cursor, OpenCode, Codex, Devin, Gemini CLI, or Antigravity) operating inside a repository containing L.A.M. Stack v0.2.1, this section is your deterministic execution specification.
 
 ## 1. Agent Bootstrap & Two-Load Routing Protocol
 
@@ -216,7 +242,7 @@ Defined in `references/agents-and-personas.md`:
 Every turn MUST open with the **Vibe-Coder Executive HUD** box and close with a **Proof Gate**:
 
 ```text
-╭─ ⚡ L.A.M. STACK v0.2.0 ── [Seam <N>: <Stage Name>] ── [Role: <Active Role>] ─╮
+╭─ ⚡ L.A.M. STACK v0.2.1 ── [Seam <N>: <Stage Name>] ── [Role: <Active Role>] ─╮
 │ [✓ Intake] ──▶ [✓ Spec] ──▶ [● M=R] ──▶ [○ Plan] ──▶ [○ Slice] ──▶ [○ Ship]  │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 ```
@@ -236,8 +262,10 @@ lam-stack/
 ├── GLOSSARY.md                       # Ubiquitous domain nouns & forbidden synonyms (_Avoid:_)
 ├── SPEC.md                           # Active behavioral specification & Spec-Doubt log
 ├── decisions.tsv                     # Append-only architectural & retrospective audit log
-├── plugin.json                       # Universal plugin manifest
-├── .claude-plugin/plugin.json        # Claude Code plugin manifest
+├── plugin.json                       # Universal plugin manifest (canonical; harness copies are byte-parity checked)
+├── opencode.json                     # OpenCode skill directory declaration
+├── .claude-plugin/plugin.json + marketplace.json + icon.png   # Claude Code plugin + marketplace listing
+├── .agents/plugins/marketplace.json  # Cross-agent marketplace entry
 ├── .cursor-plugin/plugin.json        # Cursor plugin manifest
 ├── .codex-plugin/plugin.json         # OpenAI Codex plugin manifest
 ├── .cursor/rules/lam-mode.mdc        # Cursor auto-attached rule
@@ -248,7 +276,7 @@ lam-stack/
 ├── references/*.md                   # 5 deep reference playbooks (loaded on demand)
 ├── hooks/                            # SessionStart, PreToolUse, and Stop mechanical hooks
 └── scripts/
-    ├── validate-lam.py               # 3-Tier validator (47 artifacts, 286 assertions, 3 suites)
+    ├── validate-lam.py               # 3-Tier validator (47 artifacts, 272 assertions, 3 suites)
     ├── floor-guard.sh                # 17-trap anti-slop & security diff scanner (--self-test)
     ├── seam-gate.sh                  # Seam 0..7 artifact gate verifier (--self-test)
     └── log-decision.sh               # Formula-injection-safe TSV logger for decisions.tsv

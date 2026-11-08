@@ -1,7 +1,7 @@
 ---
 name: during-code-playbooks
 description: Seam 5 during-code playbooks including Source-Driven Development, Seam-TDD, isolated git worktrees, root-cause debugging, refactoring, and performance hillclimbing.
-version: 0.2.0
+version: 0.2.1
 ---
 
 # L.A.M. Stack: During-Code Playbooks (Во время кода)

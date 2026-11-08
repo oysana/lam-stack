@@ -14,10 +14,15 @@
     "PreToolUse": [
       {
         "matcher": "Bash",
-        "pattern": "(git\\s+commit|gh\\s+pr\\s+create)",
         "hooks": [
           {
             "type": "command",
+            "if": "Bash(git commit*)",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT:-.}/hooks/pre-commit-guard.sh\""
+          },
+          {
+            "type": "command",
+            "if": "Bash(gh pr create *)",
             "command": "bash \"${CLAUDE_PLUGIN_ROOT:-.}/hooks/pre-commit-guard.sh\""
           }
         ]

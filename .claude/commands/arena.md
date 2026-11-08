@@ -2,7 +2,7 @@
 name: arena
 description: Spawn isolated arena git worktrees for parallel peer model evaluation against a shared seam contract.
 command: /arena
-version: 0.2.0
+version: 0.2.1
 ---
 
 # Command: `/arena` (Parallel Peer Worktree Arena)

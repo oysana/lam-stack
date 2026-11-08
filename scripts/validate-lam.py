@@ -45,6 +45,24 @@ MD_PATH_REGEX = re.compile(
     r"CONSTRAINTS\.md|GLOSSARY\.md|SPEC\.md|SKILL\.md))(?:`|\b)"
 )
 
+SEMVER_REGEX = re.compile(r"^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$")
+
+
+def strip_root_prefix(entry: str) -> str:
+    return entry[2:] if entry.startswith("./") else entry
+
+
+def manifest_paths(value: object) -> list[str]:
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, dict):
+        return [
+            v["source"]
+            for v in value.values()
+            if isinstance(v, dict) and isinstance(v.get("source"), str)
+        ]
+    return [e for e in (value or []) if isinstance(e, str)]
+
 
 def parse_frontmatter(text: str) -> dict[str, str] | None:
     if not text.startswith("---\n"):
@@ -150,10 +168,20 @@ def run_tier_2(errors: list[str]) -> int:
 
     if "plugin.json" in loaded_manifests:
         canonical = loaded_manifests["plugin.json"]
-        if canonical.get("version") != "0.2.0":
+        version = canonical.get("version")
+        checks += 1
+        if not isinstance(version, str) or not SEMVER_REGEX.match(version):
             errors.append(
-                f"[Tier 2] plugin.json version must be '0.2.0', got {canonical.get('version')!r}"
+                f"[Tier 2] plugin.json version must be semver, got {version!r}"
             )
+        for ver_rel in ("SKILL.md", "AGENTS.md"):
+            checks += 1
+            ver_fm = parse_frontmatter((ROOT / ver_rel).read_text(encoding="utf-8"))
+            fm_version = ver_fm.get("version") if ver_fm else None
+            if fm_version != version:
+                errors.append(
+                    f"[Tier 2] {ver_rel} frontmatter version {fm_version!r} does not match plugin.json {version!r}"
+                )
         for m_rel, data in loaded_manifests.items():
             checks += 1
             if data != canonical:
@@ -162,7 +190,9 @@ def run_tier_2(errors: list[str]) -> int:
                 )
 
         # 1. Verify skills in manifest <-> disk
-        manifest_skills = set(canonical.get("skills", []))
+        manifest_skills = {
+            strip_root_prefix(e) for e in manifest_paths(canonical.get("skills"))
+        }
         for s_entry in manifest_skills:
             checks += 1
             s_dir = ROOT / s_entry
@@ -195,7 +225,9 @@ def run_tier_2(errors: list[str]) -> int:
             )
 
         # 2. Verify agents in manifest <-> disk
-        manifest_agents = set(canonical.get("agents", []))
+        manifest_agents = {
+            strip_root_prefix(e) for e in manifest_paths(canonical.get("agents"))
+        }
         for a_entry in manifest_agents:
             checks += 1
             if not (ROOT / a_entry).is_file():
@@ -212,27 +244,38 @@ def run_tier_2(errors: list[str]) -> int:
                 )
 
         # 3. Verify commands in manifest <-> disk (.claude/commands/*.md and .gemini/commands/*.toml)
-        manifest_cmds = set(canonical.get("commands", []))
-        for c_entry in manifest_cmds:
+        manifest_cmd_files: set[str] = set()
+        manifest_cmd_dirs: list[str] = []
+        for c_entry in (
+            strip_root_prefix(e) for e in manifest_paths(canonical.get("commands"))
+        ):
             checks += 1
-            if not (ROOT / c_entry).is_file():
+            c_path = ROOT / c_entry
+            if c_path.is_dir():
+                manifest_cmd_dirs.append(c_entry.rstrip("/"))
+                continue
+            if not c_path.is_file():
                 errors.append(
                     f"[Tier 2] Manifest command '{c_entry}' missing on disk"
                 )
-            stem = Path(c_entry).stem
+                continue
+            manifest_cmd_files.add(c_entry)
+
+        for disk_cmd in sorted(glob.glob(str(ROOT / ".claude" / "commands" / "*.md"))):
+            checks += 1
+            c_rel = str(Path(disk_cmd).relative_to(ROOT))
+            if c_rel not in manifest_cmd_files and not any(
+                c_rel.startswith(d + "/") for d in manifest_cmd_dirs
+            ):
+                errors.append(
+                    f"[Tier 2] Disk command '{c_rel}' is not registered in plugin.json"
+                )
+            stem = Path(c_rel).stem
             gemini_toml = ROOT / ".gemini" / "commands" / f"{stem}.toml"
             checks += 1
             if not gemini_toml.is_file():
                 errors.append(
                     f"[Tier 2] Missing Gemini CLI parity command '.gemini/commands/{stem}.toml'"
-                )
-
-        for disk_cmd in sorted(glob.glob(str(ROOT / ".claude" / "commands" / "*.md"))):
-            checks += 1
-            c_rel = str(Path(disk_cmd).relative_to(ROOT))
-            if c_rel not in manifest_cmds:
-                errors.append(
-                    f"[Tier 2] Disk command '{c_rel}' is not registered in plugin.json"
                 )
 
     # Verify markdown references inside SKILL.md and skills/*/SKILL.md exist on disk
@@ -371,7 +414,11 @@ def main() -> int:
     t2_count = run_tier_2(errors)
     t3_count = run_tier_3(errors)
 
-    print("=== L.A.M. Stack v0.2.0 | 3-Tier Validator Suite ===")
+    try:
+        banner_version = json.loads((ROOT / "plugin.json").read_text(encoding="utf-8")).get("version", "?")
+    except Exception:
+        banner_version = "?"
+    print(f"=== L.A.M. Stack v{banner_version} | 3-Tier Validator Suite ===")
     print(f"  Tier 1 (Structural & Unslop Invariants): {t1_count} artifacts inspected")
     print(f"  Tier 2 (Manifest Parity & Collision Check): {t2_count} path/routing assertions")
     print(f"  Tier 3 (Behavioral Execution Traces): {t3_count} runtime suites executed")

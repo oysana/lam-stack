@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# L.A.M. Stack v0.2.0 - Mechanical Floor Guard
+# L.A.M. Stack v0.2.1 - Mechanical Floor Guard
 # Blocks compiler/lint/coverage/mutation suppressions, focused/skipped tests,
 # unimplemented stubs, silent error swallowing, debug leftovers, type escapes,
 # and leaked credentials across code diffs while ignoring markdown prose (*.md).

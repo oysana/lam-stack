@@ -1,5 +1,5 @@
 ---
-description: Invoke the master L.A.M. v0.2.0 coordinator on the current task.
+description: Invoke the master L.A.M. v0.2.1 coordinator on the current task.
 disable-model-invocation: true
 ---
 

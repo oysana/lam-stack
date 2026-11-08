@@ -1,55 +1,50 @@
 {
   "name": "lam-stack",
-  "version": "0.2.0",
-  "description": "Unified L.A.M. v0.2.0 Engineering Stack merging Lauren Tan's pstack, Addy Osmani's agent-skills, and Matt Pocock's skills with M=R mechanical floor enforcement.",
+  "version": "0.2.1",
+  "description": "Unified L.A.M. engineering stack: seam-routed skills, review agents, thin commands, and mechanical floor enforcement. Compressed synthesis of pstack, addyosmani/agent-skills, and mattpocock/skills.",
   "license": "MIT",
-  "authors": [
-    {
-      "name": "L.A.M. Stack Synthesis (Lauren Tan + Addy Osmani + Matt Pocock)"
-    }
+  "author": {
+    "name": "oysana",
+    "url": "https://github.com/oysana"
+  },
+  "homepage": "https://github.com/oysana/lam-stack",
+  "repository": "https://github.com/oysana/lam-stack",
+  "keywords": [
+    "skills",
+    "agents",
+    "engineering-workflow",
+    "quality-floor"
   ],
+  "metadata": {
+    "derivedFrom": [
+      "https://github.com/chhoumann/t3-pstack",
+      "https://github.com/mattpocock/skills",
+      "https://github.com/addyosmani/agent-skills"
+    ]
+  },
   "skills": [
-    "skills/lam-mode",
-    "skills/lam-investigate",
-    "skills/lam-grill",
-    "skills/lam-constraints",
-    "skills/lam-spec",
-    "skills/lam-architect",
-    "skills/lam-tickets",
-    "skills/lam-build",
-    "skills/lam-debug",
-    "skills/lam-perf",
-    "skills/lam-review",
-    "skills/lam-ship",
-    "skills/lam-retro"
+    "./skills/lam-mode",
+    "./skills/lam-investigate",
+    "./skills/lam-grill",
+    "./skills/lam-constraints",
+    "./skills/lam-spec",
+    "./skills/lam-architect",
+    "./skills/lam-tickets",
+    "./skills/lam-build",
+    "./skills/lam-debug",
+    "./skills/lam-perf",
+    "./skills/lam-review",
+    "./skills/lam-ship",
+    "./skills/lam-retro"
   ],
   "agents": [
-    "agents/lam-coder.md",
-    "agents/comment-sicko.md",
-    "agents/spec-doubt-reviewer.md",
-    "agents/standards-arch-reviewer.md",
-    "agents/security-auditor.md",
-    "agents/web-performance-auditor.md",
-    "agents/test-engineer.md"
+    "./agents/lam-coder.md",
+    "./agents/comment-sicko.md",
+    "./agents/spec-doubt-reviewer.md",
+    "./agents/standards-arch-reviewer.md",
+    "./agents/security-auditor.md",
+    "./agents/web-performance-auditor.md",
+    "./agents/test-engineer.md"
   ],
-  "commands": [
-    ".claude/commands/lam.md",
-    ".claude/commands/investigate.md",
-    ".claude/commands/grill.md",
-    ".claude/commands/constraints.md",
-    ".claude/commands/spec.md",
-    ".claude/commands/architect.md",
-    ".claude/commands/tickets.md",
-    ".claude/commands/build.md",
-    ".claude/commands/debug.md",
-    ".claude/commands/perf.md",
-    ".claude/commands/review.md",
-    ".claude/commands/ship.md",
-    ".claude/commands/retro.md",
-    ".claude/commands/arena.md",
-    ".claude/commands/interrogate.md",
-    ".claude/commands/prototype.md",
-    ".claude/commands/wayfinder.md",
-    ".claude/commands/handoff.md"
-  ]
+  "commands": "./.claude/commands/"
 }

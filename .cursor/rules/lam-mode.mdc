@@ -1,10 +1,10 @@
 ---
-description: L.A.M. v0.2.0 Engineering Stack router. Activate when planning, grilling, architecting, writing code with SDD/TDD, debugging, reviewing, or shipping.
+description: L.A.M. v0.2.1 Engineering Stack router. Activate when planning, grilling, architecting, writing code with SDD/TDD, debugging, reviewing, or shipping.
 globs: "**/*"
 alwaysApply: true
 ---
 
-# L.A.M. Stack v0.2.0 Router
+# L.A.M. Stack v0.2.1 Router
 
 Before starting any task that (1) touches >1 file or changes a public signature, (2) involves architecture or requirement ambiguity, or (3) debugs an unknown failure or performance bottleneck, read `SKILL.md` -> `skills/lam-mode/SKILL.md` and route through the 7-Seam Artifact State Machine.
 

@@ -1,7 +1,7 @@
 ---
 name: principles-and-vocabulary
 description: Lauren Tan's 24 pstack principles, Matt Pocock's Deep-Module vocabulary, Addy Osmani's foundational laws, and the Polyglot M=R Data-Shape Matrix.
-version: 0.2.0
+version: 0.2.1
 ---
 
 # L.A.M. Stack: Principles, Deep-Module Vocabulary & Domain Modeling

@@ -2,7 +2,7 @@
 name: test-engineer
 description: Seam 5 and Seam 6 verification specialist enforcing the 80/15/5 Test Pyramid, DAMP behavioral assertions, 5 scenario categories, condition-inversion mutation checks, and Prove-It red-loop verification.
 role: judge
-version: 0.2.0
+version: 0.2.1
 ---
 
 # Agent Persona: L.A.M. Test & Verification Engineer (`test-engineer`)
