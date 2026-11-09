@@ -1,11 +1,55 @@
 # L.A.M. Stack v0.1.0
 
-> **The Unified Principal-Engineer Plugin for AI Coding Agents**
-> A compressed synthesis of **`pstack`** (`chhoumann/t3-pstack`), **Matt Pocock's `skills`** (`mattpocock/skills`), and **Addy Osmani's `agent-skills`** (`addyosmani/agent-skills`) into one zero-conflict plugin with a mechanical quality floor.
+**Deterministic control runtime for AI coding agents.** A plugin that replaces prompt-level suggestions with script-enforced gates: every work phase crosses a mechanical check, every state claim must equal repository reality, and the whole discipline ships in `~4.3 KB` of skill metadata.
 
-**Measured startup surface** (YAML frontmatter bytes that harnesses preload as skill metadata, counted 2026-11-08 on v0.1.0): L.A.M. carries `~4.3 KB` across 13 skills + router, vs `~36 KB` for all three source packs combined (66 + 39 + 25 skills). That is roughly `1.1k` vs `9k` tokens at 4 bytes/token, and smaller than any single source pack (pstack `~17.8 KB`, mattpocock `~8.0 KB`, addyosmani `~10.3 KB`). Method and raw counts are in `evals/startup-surface.md`.
+[![Claude plugin validation](https://img.shields.io/badge/claude%20plugin-validated-brightgreen)](docs/SEO_AND_LAUNCH_PLAYBOOK.md) [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE) [![Version](https://img.shields.io/badge/version-0.1.0-informational)](plugin.json) [![Evals published](https://img.shields.io/badge/evals-raw%20JSON-orange)](evals/duel-2026-11-08.md)
 
-**Head-to-head status (honest):** in a blinded 4-arm duel on real tasks (same model, task, seed, starting commit; 24 runs), L.A.M. **tied** pstack and finished marginally behind the Pocock and Osmani packs on a saturated strong-model lane — details and raw grader JSON in `evals/duel-2026-11-08.md`. A discriminating free-model lane is instrumented; claims here stay exact about which packs, if any, were beaten.
+```
+/plugin marketplace add oysana/lam-stack && /plugin install lam-stack@lam-stack
+```
+
+## The architecture: seven gated seams
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                 7-SEAM ARTIFACT STATE MACHINE                    │
+│                                                                  │
+│  S0 ──▶ S1 ──▶ S2 ──▶ S3 ──▶ S4 ──▶ S5 ──▶ S6 ──▶ S7            │
+│  code   intent floor  spec   tracer  SDD+   doubt   release      │
+│  anchor &glos  gate   sketch ticket  TDD    interr.  candidate   │
+│                          graph  slice  rogate                   │
+│                                                                  │
+│  every ──▶ crosses `bash scripts/seam-gate.sh check <N>`         │
+│  a failed gate blocks the transition — not a warning, a stop     │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## The invariant: M = R
+
+The core axiom (`SPEC.md`): **model state equals reality**. For every claim `c` the agent makes about the work — tests pass, files changed, gate green — the runtime requires a machine-checkable artifact `a(c)` such that `verify(a) ⇒ c`. A claim without a checkable artifact is a floor violation, not an error message to ignore.
+
+$$ \forall s \in Seams:\; \text{transition}(s \to s+1) \iff \text{seam-gate}(s) = \top $$
+
+**Ousterhout depth, applied:** each `lam-*` skill is a *deep module* — a one-line interface (invoke the skill) over a full procedure (red-first repro, gate run, artifact write, doubt review). Depth is enforced by the two-load law: the harness preloads only the 13-skill router (`~1.1k` tokens); procedure bodies load on demand at the seam that needs them.
+
+## Hope-driven prompt packs vs. L.A.M. deterministic control
+
+| | Typical skill pack | L.A.M. Stack |
+|---|---|---|
+| Quality rule lives in | prose the model may honor | `scripts/floor-guard.sh` — regex + structural rules on the actual diff |
+| "Did it verify?" | the model's word | `seam-gate.sh check` exit code on the artifact |
+| State tracking | chat context (drifts) | `SPEC.md` M=R axiom + decision log (`log-decision.sh` appends, never rewrites) |
+| Startup cost | 8–18 KB metadata per pack, all-or-nothing | `~4.3 KB`, 13 skills, two-load progressive disclosure |
+| Failure mode | silent — agent skips a step | loud — pre-commit guard + seam gate block |
+| Proof | "production-grade" in the README | raw grader JSON in `evals/` — including the runs where we tied |
+
+## Measured startup surface
+
+Counted 2026-11-08 on v0.1.0 (YAML frontmatter bytes harnesses preload as skill metadata): L.A.M. `~4.3 KB` / 13 skills vs `~36 KB` for the three source packs combined (pstack `~17.8 KB`/66, mattpocock `~8.0 KB`/39, addyosmani `~10.3 KB`/25). Roughly `1.1k` vs `9k` tokens at 4 bytes/token. Method and raw counts: `evals/startup-surface.md`.
+
+## Head-to-head status (honest)
+
+Blinded 4-arm duel, same model/task/seed/commit, 24 runs on real bug-fix and migration tasks: L.A.M. **tied** pstack (13.33 vs 13.33 mean composite) and trailed Pocock/Osmani by 0.17 on scope-discipline variance. Full method, grader, and raw JSON: `evals/duel-2026-11-08.md`. We publish the numbers before we publish claims.
 
 ---
 
