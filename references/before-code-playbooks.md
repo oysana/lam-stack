@@ -1,7 +1,7 @@
 ---
 name: before-code-playbooks
 description: Seam 0 through Seam 4 pre-code playbooks including 4 Model Roles routing, CLAIM->EXTRACT->DOUBT->RECONCILE->STOP loop, Frontier Rounds, Spec lock, and Tracer-Bullet slicing.
-version: 0.2.1
+version: 0.1.0
 ---
 
 # L.A.M. Stack: Before-Code Playbooks (До кода)

@@ -2,7 +2,7 @@
 name: interrogate
 description: Spin up an isolated Interrogate Worktree to stress-test, mutate, and adversarially audit a candidate slice.
 command: /interrogate
-version: 0.2.1
+version: 0.1.0
 ---
 
 # Command: `/interrogate` (Seam 6 Interrogate Worktree Audit)

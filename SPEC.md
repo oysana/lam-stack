@@ -1,10 +1,10 @@
 ---
 name: spec
-description: 7-Seam Artifact State Machine and 4 Model Roles contract for lam-stack v0.2.1.
-version: 0.2.1
+description: 7-Seam Artifact State Machine and 4 Model Roles contract for lam-stack v0.1.0.
+version: 0.1.0
 ---
 
-# SPEC: 7-Seam Artifact State Machine & Model Role Contract (v0.2.1)
+# SPEC: 7-Seam Artifact State Machine & Model Role Contract (v0.1.0)
 
 ## 1. Core Axiom: $M = R$ (Model State Equals Reality)
 

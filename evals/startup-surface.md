@@ -28,7 +28,7 @@ EOF
 
 | Pack | Skill files | Frontmatter bytes | ~Tokens (4 B/tok) |
 | --- | --- | --- | --- |
-| L.A.M. Stack v0.2.1 | 14 (13 skills + root router) | 4,302 | ~1,075 |
+| L.A.M. Stack v0.1.0 | 14 (13 skills + root router) | 4,302 | ~1,075 |
 | pstack (chhoumann/t3-pstack 2.2.8) | 66 | 17,849 | ~4,462 |
 | mattpocock/skills | 39 | 7,952 | ~1,988 |
 | addyosmani/agent-skills | 25 | 10,318 | ~2,579 |

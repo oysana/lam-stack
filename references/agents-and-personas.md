@@ -1,7 +1,7 @@
 ---
 name: agents-and-personas
-description: Canonical subagent orchestration rules and specialist persona contracts across all 7 L.A.M. Stack v0.2.1 agents.
-version: 0.2.1
+description: Canonical subagent orchestration rules and specialist persona contracts across all 7 L.A.M. Stack v0.1.0 agents.
+version: 0.1.0
 ---
 
 # L.A.M. Stack: Subagents & Specialist Personas (`agents-and-personas.md`)

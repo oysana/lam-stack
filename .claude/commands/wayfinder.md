@@ -2,7 +2,7 @@
 name: wayfinder
 description: Run structured Frontier Rounds at Seam 0 and Seam 1 to burn down ambiguity and lock GLOSSARY.md.
 command: /wayfinder
-version: 0.2.1
+version: 0.1.0
 ---
 
 # Command: `/wayfinder` (Seam 0 & Seam 1 Frontier Round Discovery)

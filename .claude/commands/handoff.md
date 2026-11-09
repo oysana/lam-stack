@@ -2,7 +2,7 @@
 name: handoff
 description: Package deterministic Seam state, verification proof, and Decision Trail entries for clean role or session handoff.
 command: /handoff
-version: 0.2.1
+version: 0.1.0
 ---
 
 # Command: `/handoff` (Deterministic Seam & Role Handoff)

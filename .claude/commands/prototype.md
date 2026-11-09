@@ -2,7 +2,7 @@
 name: prototype
 description: Execute a time-boxed feasibility spike in an isolated spec worktree to extract verified seam signatures.
 command: /prototype
-version: 0.2.1
+version: 0.1.0
 ---
 
 # Command: `/prototype` (Seam 3 Isolated Spec Worktree Spike)

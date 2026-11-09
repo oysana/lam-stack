@@ -1,14 +1,14 @@
 ---
 name: lam-mode
-description: Master L.A.M. v0.2.1 coordinator (built on Lauren Tan's poteto-mode + Matt Pocock's invocation + Addy Osmani's using-agent-skills). Routes tasks across the 7-Seam Artifact State Machine, injects verbatim playbook steps, and enforces the 24 principles.
+description: Master L.A.M. v0.1.0 coordinator (built on Lauren Tan's poteto-mode + Matt Pocock's invocation + Addy Osmani's using-agent-skills). Routes tasks across the 7-Seam Artifact State Machine, injects verbatim playbook steps, and enforces the 24 principles.
 disable-model-invocation: true
 ---
 
-# L.A.M. Stack v0.2.1 (Lauren Tan + Addy Osmani + Matt Pocock)
+# L.A.M. Stack v0.1.0 (Lauren Tan + Addy Osmani + Matt Pocock)
 
-Self-bootstrapped v0.2.1 engineering workflow designed by applying L.A.M.'s own principles (`principle-attack-the-premise`, `principle-redesign-from-first-principles`, `codebase-design` Deep Modules, `writing-for-agents` Two-Load Hierarchy, and `doubt-driven-development`) to merge all three libraries without context bloat or rule collisions.
+Self-bootstrapped v0.1.0 engineering workflow designed by applying L.A.M.'s own principles (`principle-attack-the-premise`, `principle-redesign-from-first-principles`, `codebase-design` Deep Modules, `writing-for-agents` Two-Load Hierarchy, and `doubt-driven-development`) to merge all three libraries without context bloat or rule collisions.
 
-## Why L.A.M. v0.2.1 Replaces Naive 1-to-1 Patching (The What & How Upgrade)
+## Why L.A.M. v0.1.0 Replaces Naive 1-to-1 Patching (The What & How Upgrade)
 
 1. **The 7-Seam Artifact State Machine (`principle-model-the-domain` + `codebase-design`)**:
    Instead of loose "Before / During / After" buckets, every workflow is a **Deep Module** whose public interface is a concrete repo artifact (**Seam**). No phase starts until its input seam is verified via `bash scripts/seam-gate.sh check <0..7>`:
@@ -57,14 +57,14 @@ Self-bootstrapped v0.2.1 engineering workflow designed by applying L.A.M.'s own 
    - **Full 7-Seam Pipeline**: For multi-file features, new APIs, or ambiguous specs, run `Seam 0` through `Seam 7`.
 8. **Signature Output Protocol (Vibe-Coder Executive HUD)**:
    - Every response must look unmistakably crisp to a human scanning only the chat output:
-     - **Header**: `[L.A.M. v0.2.1 | Seam X/7: <Stage> | Mode: <A-La-Carte|Fast-Track|Full> | Confidence: X% (measured)]`
+     - **Header**: `[L.A.M. v0.1.0 | Seam X/7: <Stage> | Mode: <A-La-Carte|Fast-Track|Full> | Confidence: X% (measured)]`
      - **Human Impact Summary (2-3 bullets, zero AST jargon)**: State in the user's language what user flow works now, what failure state is eliminated, and why it is safe.
      - **Decision Frontier Card (when asking questions)**: Numbered `Q1`, `Q2` options with `-> Recommended: <default>` so `"yes"` or `"ок"` approves in one turn.
      - **Bottom Proof Receipt**: `Tests: <pass/total> | Floor Guard: 0 violations | Blast Radius: <N files> | Door: <Two-Way|One-Way>`.
 
 ## Common Rationalizations Guard
 
-| Rationalization (Excuse) | Reality (L.A.M. v0.2.1 Rule) |
+| Rationalization (Excuse) | Reality (L.A.M. v0.1.0 Rule) |
 | :--- | :--- |
 | *"I'll take one plugin 1-to-1 and paste the others on top."* | Naive concatenation creates 3 competing routers, 40k context bloat, and contradictory TDD/interview rules. Route through the 7-Seam State Machine and Two-Load Disclosure. |
 | *"I'll ask 8 clarifying questions one per turn before starting."* | Serial 1-by-1 questions burn 8 user turns; asking for codebase facts wastes human attention. Look up facts via subagents and ask the whole unsettled decision frontier in 1 numbered round with recommended defaults. |

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# L.A.M. Stack v0.2.1 - Seam Gate & Worktree Isolation Controller
+# L.A.M. Stack v0.1.0 - Seam Gate & Worktree Isolation Controller
 # Subcommands:
 #   check <0..7>
 #   worktree <arena|swarm|interrogate|spec> <slug>

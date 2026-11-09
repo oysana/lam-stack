@@ -1,14 +1,14 @@
 ---
 name: constraints
-description: Seam 0 and Seam 2 forensic audit and mechanical quality floor contract for lam-stack v0.2.1.
-version: 0.2.1
+description: Seam 0 and Seam 2 forensic audit and mechanical quality floor contract for lam-stack v0.1.0.
+version: 0.1.0
 ---
 
-# CONSTRAINTS: Mechanical Quality Floor & Forensic Baseline (v0.2.1)
+# CONSTRAINTS: Mechanical Quality Floor & Forensic Baseline (v0.1.0)
 
 ## 1. Seam 0 Forensic Audit (v0.1.0 Defect Ledger)
 
-Prior to executing the v0.2.1 upgrade, a forensic inspection of `lam-stack` v0.1.0 identified five structural and mechanical defects that violated $M = R$ (Model State equals Reality):
+Prior to executing the v0.1.0 upgrade, a forensic inspection of `lam-stack` v0.1.0 identified five structural and mechanical defects that violated $M = R$ (Model State equals Reality):
 
 1. **Defect A (Phantom Agent Reference)**: `SKILL.md` and `skills/lam-ship/SKILL.md` delegated verification work to `test-engineer`, yet `agents/test-engineer.md` did not exist on disk and was absent from `plugin.json`, `.claude-plugin/plugin.json`, `.cursor-plugin/plugin.json`, and `.codex-plugin/plugin.json`.
 2. **Defect B (Root/Skill DRY Violation)**: Root `SKILL.md` and `skills/lam-mode/SKILL.md` were duplicated word-for-word, creating drift risk and wasting context tokens instead of using an ultra-compact (<90 lines) Two-Load entry router at `SKILL.md`.
@@ -18,7 +18,7 @@ Prior to executing the v0.2.1 upgrade, a forensic inspection of `lam-stack` v0.1
 
 ## 2. Seam 2 Mechanical Verification Commands (`how` + `why`)
 
-Every slice in `lam-stack` v0.2.1 is governed by three deterministic verification gates:
+Every slice in `lam-stack` v0.1.0 is governed by three deterministic verification gates:
 
 ### `check:fast`
 ```bash
@@ -42,5 +42,5 @@ python3 scripts/validate-lam.py && bash scripts/floor-guard.sh --self-test && ba
 
 - **File Length Ceiling**: Every `SKILL.md`, `agents/*.md`, `references/*.md`, and `.claude/commands/*.md` file MUST be `<= 500` lines.
 - **Zero Typographic Slop**: Zero em-dashes or en-dashes across all markdown artifacts; use standard ASCII hyphens (`-` or `--`) or colons.
-- **Manifest Parity**: `plugin.json`, `.claude-plugin/plugin.json`, `.cursor-plugin/plugin.json`, and `.codex-plugin/plugin.json` MUST remain 100% synchronized at version `0.2.1`.
+- **Manifest Parity**: `plugin.json`, `.claude-plugin/plugin.json`, `.cursor-plugin/plugin.json`, and `.codex-plugin/plugin.json` MUST remain 100% synchronized at version `0.1.0`.
 - **Zero Unverified Commits**: `hooks/pre-commit-guard.sh` blocks `git commit` and `gh pr create` unless `bash scripts/floor-guard.sh` exits `0`.

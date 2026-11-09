@@ -1,12 +1,12 @@
 ---
 name: glossary
-description: Canonical Ubiquitous Language and forbidden synonym ledger for lam-stack v0.2.1.
-version: 0.2.1
+description: Canonical Ubiquitous Language and forbidden synonym ledger for lam-stack v0.1.0.
+version: 0.1.0
 ---
 
-# GLOSSARY: L.A.M. Ubiquitous Language (v0.2.1)
+# GLOSSARY: L.A.M. Ubiquitous Language (v0.1.0)
 
-This glossary locks the canonical domain nouns for `lam-stack` v0.2.1. Every skill, agent, reference, hook, and command MUST use these exact terms and reject the forbidden synonyms listed under `_Avoid:_`.
+This glossary locks the canonical domain nouns for `lam-stack` v0.1.0. Every skill, agent, reference, hook, and command MUST use these exact terms and reject the forbidden synonyms listed under `_Avoid:_`.
 
 ## 1. Core Domain Nouns
 

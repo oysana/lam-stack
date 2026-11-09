@@ -6,7 +6,7 @@
   "plugins": [
     {
       "name": "lam-stack",
-      "version": "0.2.1",
+      "version": "0.1.0",
       "description": "Seam-routed skills, review agents, thin commands, and mechanical floor enforcement. Compressed synthesis of pstack, addyosmani/agent-skills, and mattpocock/skills.",
       "source": {
         "source": "local",

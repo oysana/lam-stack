@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# L.A.M. Stack v0.2.1 - Atomic Decision Trail Logger (from Lauren Tan's pstack `show-me-your-work`)
+# L.A.M. Stack v0.1.0 - Atomic Decision Trail Logger (from Lauren Tan's pstack `show-me-your-work`)
 # Supports both:
 #   bash scripts/log-decision.sh <tsv-path> <phase> <decision> <why> <evidence> <result>
 #   bash scripts/log-decision.sh <phase> <decision> <why> <evidence> <result> (uses ${DECISIONS_FILE:-decisions.tsv})

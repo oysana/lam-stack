@@ -1,12 +1,12 @@
 ---
 name: lam-stack
-description: Ultra-compact Two-Load entry router for L.A.M. Stack v0.2.1. Delegates orchestration to skills/lam-mode/SKILL.md across the 7-Seam Artifact State Machine.
-version: 0.2.1
+description: Ultra-compact Two-Load entry router for L.A.M. Stack v0.1.0. Delegates orchestration to skills/lam-mode/SKILL.md across the 7-Seam Artifact State Machine.
+version: 0.1.0
 ---
 
-# L.A.M. Stack v0.2.1: Root Two-Load Entry Router
+# L.A.M. Stack v0.1.0: Root Two-Load Entry Router
 
-This file is the `< 90` line Load-1 router for `lam-stack` v0.2.1. To eliminate the v0.1.0 DRY duplication defect between root `SKILL.md` and `skills/lam-mode/SKILL.md`, full orchestration rules live exclusively in `skills/lam-mode/SKILL.md`.
+This file is the `< 90` line Load-1 router for `lam-stack` v0.1.0. To eliminate the v0.1.0 DRY duplication defect between root `SKILL.md` and `skills/lam-mode/SKILL.md`, full orchestration rules live exclusively in `skills/lam-mode/SKILL.md`.
 
 ## 1. Two-Load Progressive Disclosure Router
 
@@ -34,7 +34,7 @@ Load `skills/lam-mode/SKILL.md` first, then load **only** the active Seam skill,
 ## 3. Signature Output Style (Vibe-Coder Executive HUD)
 
 Users judge agent quality by the clarity of your chat output, not just raw diffs. Format every reply with these 3 visual blocks:
-1. **Top HUD Bar**: `[L.A.M. v0.2.1 | Seam X/7: <Stage> | Mode: <A-La-Carte|Fast-Track|Full> | Confidence: X% (measured)]`
+1. **Top HUD Bar**: `[L.A.M. v0.1.0 | Seam X/7: <Stage> | Mode: <A-La-Carte|Fast-Track|Full> | Confidence: X% (measured)]`
 2. **Real-World Impact (Zero Jargon)**: 2-3 plain-language bullets in the user's language stating what user behavior now works, what failure state is now impossible, and what changed.
 3. **Bottom Proof Receipt**: Compact verification line (`Tests: PASS | Floor Guard: 0 violations | Blast Radius: N files | Door: Two-Way`).
 
@@ -47,7 +47,7 @@ Users judge agent quality by the clarity of your chat output, not just raw diffs
 
 ## Common Rationalizations
 
-| Rationalization | Reality (L.A.M. v0.2.1 Rule) |
+| Rationalization | Reality (L.A.M. v0.1.0 Rule) |
 | :--- | :--- |
 | *"I will duplicate the entire orchestrator into root `SKILL.md`."* | Word-for-word duplication between `SKILL.md` and `skills/lam-mode/SKILL.md` violates DRY structure. Keep `SKILL.md` under 90 lines and delegate to `skills/lam-mode/SKILL.md`. |
 | *"I can skip `seam-gate.sh` and start coding before `SPEC.md` is locked."* | Every Full-Pipeline Seam transition is mechanically gated by `bash scripts/seam-gate.sh check <0..7>`. |

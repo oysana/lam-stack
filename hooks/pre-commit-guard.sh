@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# L.A.M. Stack v0.2.1 - PreToolUse Guard for git commit and gh pr create
+# L.A.M. Stack v0.1.0 - PreToolUse Guard for git commit and gh pr create
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # Claude Code delivers hook input as JSON on stdin. Extract tool_input.command

@@ -1,9 +1,9 @@
-# L.A.M. Stack v0.2.1
+# L.A.M. Stack v0.1.0
 
 > **The Unified Principal-Engineer Plugin for AI Coding Agents**
 > A compressed synthesis of **`pstack`** (`chhoumann/t3-pstack`), **Matt Pocock's `skills`** (`mattpocock/skills`), and **Addy Osmani's `agent-skills`** (`addyosmani/agent-skills`) into one zero-conflict plugin with a mechanical quality floor.
 
-**Measured startup surface** (YAML frontmatter bytes that harnesses preload as skill metadata, counted 2026-11-08 on v0.2.1): L.A.M. carries `~4.3 KB` across 13 skills + router, vs `~36 KB` for all three source packs combined (66 + 39 + 25 skills). That is roughly `1.1k` vs `9k` tokens at 4 bytes/token, and smaller than any single source pack (pstack `~17.8 KB`, mattpocock `~8.0 KB`, addyosmani `~10.3 KB`). Method and raw counts are in `evals/startup-surface.md`.
+**Measured startup surface** (YAML frontmatter bytes that harnesses preload as skill metadata, counted 2026-11-08 on v0.1.0): L.A.M. carries `~4.3 KB` across 13 skills + router, vs `~36 KB` for all three source packs combined (66 + 39 + 25 skills). That is roughly `1.1k` vs `9k` tokens at 4 bytes/token, and smaller than any single source pack (pstack `~17.8 KB`, mattpocock `~8.0 KB`, addyosmani `~10.3 KB`). Method and raw counts are in `evals/startup-surface.md`.
 
 **Head-to-head status (honest):** in a blinded 4-arm duel on real tasks (same model, task, seed, starting commit; 24 runs), L.A.M. **tied** pstack and finished marginally behind the Pocock and Osmani packs on a saturated strong-model lane — details and raw grader JSON in `evals/duel-2026-11-08.md`. A discriminating free-model lane is instrumented; claims here stay exact about which packs, if any, were beaten.
 
@@ -37,7 +37,7 @@ Installing `pstack`, `mattpocock/skills`, and `addyosmani/agent-skills` side-by-
 2. **Routing Collisions**: Competing TDD, planning, and code-review skills fight over the same triggers.
 3. **Meta-Prompt Fatigue**: Without a unified discipline layer, you still have to paste 50-line "senior engineer" prompts (`prove facts with data`, `make modules deep`, `find implicit state machines`) on every turn.
 
-**L.A.M. Stack v0.2.1** solves all three:
+**L.A.M. Stack v0.1.0** solves all three:
 - **Two-Load Progressive Disclosure (`~1,500` tokens at start)**: Loads only a `< 90`-line router (`SKILL.md`) at session start and pulls leaf playbooks on demand.
 - **Built-In Senior Engineering Physics**: Automatically enforces Data-First Probing, Ousterhout Deep Modules (Deletion Test + Interface Shrink), First-Principles State Machine Discovery ($M = R$), and 17 Mechanical Anti-Slop Traps (`scripts/floor-guard.sh`).
 - **Executive Terminal Output**: Vibe coders do not want to read walls of AI prose. Every response prints a clean **Executive HUD**, a 3-bullet summary, a decision/diff table, and raw terminal proof.
@@ -58,7 +58,7 @@ You never have to choose between Lauren Tan's autonomous orchestration and Matt 
 
 ## Installation
 
-### Claude Code (validated: `claude plugin validate` passes on v0.2.1)
+### Claude Code (validated: `claude plugin validate` passes on v0.1.0)
 
 ```text
 /plugin install lam-stack --marketplace oysana/lam-stack
@@ -156,7 +156,7 @@ L.A.M. is a compressed synthesis, not a superset. It keeps the overlapping core 
 Every L.A.M. Stack response follows a strict visual output contract so you can verify progress in 5 seconds without reading raw code:
 
 ```text
-╭─ ⚡ L.A.M. STACK v0.2.1 ── [Seam 2: M=R & Deep Modules] ── [Role: Builder] ─╮
+╭─ ⚡ L.A.M. STACK v0.1.0 ── [Seam 2: M=R & Deep Modules] ── [Role: Builder] ─╮
 │ [✓ Intake] ──▶ [✓ Spec] ──▶ [● M=R] ──▶ [○ Plan] ──▶ [○ Slice] ──▶ [○ Ship] │
 ╰─────────────────────────────────────────────────────────────────────────────╯
 
@@ -180,7 +180,7 @@ Every L.A.M. Stack response follows a strict visual output contract so you can v
 
 # Part 2: For AI Coding Agents (Execution Contract)
 
-> **AGENT DIRECTIVE**: If you are an AI coding agent (Claude Code, Cursor, OpenCode, Codex, Devin, Gemini CLI, or Antigravity) operating inside a repository containing L.A.M. Stack v0.2.1, this section is your deterministic execution specification.
+> **AGENT DIRECTIVE**: If you are an AI coding agent (Claude Code, Cursor, OpenCode, Codex, Devin, Gemini CLI, or Antigravity) operating inside a repository containing L.A.M. Stack v0.1.0, this section is your deterministic execution specification.
 
 ## 1. Agent Bootstrap & Two-Load Routing Protocol
 
@@ -244,7 +244,7 @@ Defined in `references/agents-and-personas.md`:
 Every turn MUST open with the **Vibe-Coder Executive HUD** box and close with a **Proof Gate**:
 
 ```text
-╭─ ⚡ L.A.M. STACK v0.2.1 ── [Seam <N>: <Stage Name>] ── [Role: <Active Role>] ─╮
+╭─ ⚡ L.A.M. STACK v0.1.0 ── [Seam <N>: <Stage Name>] ── [Role: <Active Role>] ─╮
 │ [✓ Intake] ──▶ [✓ Spec] ──▶ [● M=R] ──▶ [○ Plan] ──▶ [○ Slice] ──▶ [○ Ship]  │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 ```
