@@ -1,5 +1,7 @@
 # L.A.M. Stack v0.1.0
 
+![L.A.M. Stack — launch preview](assets/launch-preview.png)
+
 **Deterministic control runtime for AI coding agents.** A plugin that replaces prompt-level suggestions with script-enforced gates: every work phase crosses a mechanical check, every state claim must equal repository reality, and the whole discipline ships in `~4.3 KB` of skill metadata.
 
 [![Gate](https://github.com/oysana/lam-stack/actions/workflows/validate.yml/badge.svg)](https://github.com/oysana/lam-stack/actions/workflows/validate.yml) [![Claude plugin validation](https://img.shields.io/badge/claude%20plugin-validated-brightgreen)](docs/SEO_AND_LAUNCH_PLAYBOOK.md) [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE) [![Version](https://img.shields.io/badge/version-0.1.0-informational)](plugin.json) [![Evals published](https://img.shields.io/badge/evals-raw%20JSON-orange)](evals/duel-2026-11-08.md)
