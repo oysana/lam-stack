@@ -1,0 +1,17 @@
+name: validate
+
+on: [push, pull_request]
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: validate-lam (3 tiers)
+        run: python3 scripts/validate-lam.py
+      - name: floor-guard self-test
+        run: bash scripts/floor-guard.sh --self-test
+      - name: seam-gate self-test
+        run: bash scripts/seam-gate.sh --self-test
+      - name: shell syntax
+        run: bash -n hooks/*.sh scripts/*.sh
