@@ -1,0 +1,8 @@
+{
+  "id": "t3-gate",
+  "allowed_paths": ["extension/", "tests/js/", "STATUS.md"],
+  "required_artifacts": [
+    {"path": "extension/tests/provider_catalog.test.mjs", "kind": "own_test", "points": 2}
+  ],
+  "diff_size_budget_lines": 300
+}

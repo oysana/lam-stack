@@ -1,0 +1,8 @@
+{
+  "id": "t2-selector-alias",
+  "allowed_paths": ["extension/"],
+  "required_artifacts": [
+    {"path": "extension/tests/migrate_selectors.test.mjs", "kind": "own_test", "points": 2}
+  ],
+  "diff_size_budget_lines": 200
+}

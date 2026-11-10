@@ -1,0 +1,71 @@
+{
+  "frozen_at": "2026-11-08T21:55:00Z",
+  "question": "Given the same task, model, timeout, and starting commit, does mounting pack X as OpenCode skills produce a better observable result than mounting pack Y?",
+  "arms": {
+    "lam": "L.A.M. Stack v0.2.1 (git archive of tag)",
+    "pstack": "pstack 2.2.8 (installed plugin tree)",
+    "pocock": "mattpocock/skills promoted buckets (engineering+productivity)",
+    "osmani": "addyosmani/agent-skills"
+  },
+  "mount": "full pack tree at .pack/ inside the candidate workdir; opencode.json points skills at the pack's skill dirs; XDG_CONFIG_HOME is isolated so no user/global skills leak in",
+  "candidate_never_sees": [
+    "eval",
+    "benchmark",
+    "judge",
+    "rubric",
+    "score",
+    "compare",
+    "candidate",
+    "other arms exist"
+  ],
+  "tasks": [
+    "t1-hostname",
+    "t2-selector-alias"
+  ],
+  "seeds": 3,
+  "timeout_s": 900,
+  "runner_models": [
+    "opencode/glm-5.3-flash-free",
+    "opencode/deepseek-v4.1-flash-free"
+  ],
+  "judge_model": "opencode/mimo-v2.6-flash-free",
+  "model_swap_rule": "if a runner model produces no usable output on ANY arm in the pilot, it is replaced for the entire matrix before scoring; the replacement is recorded here before runs continue",
+  "scoring": {
+    "acceptance": {
+      "max": 10,
+      "formula": "10 * hidden_acceptance_passed / hidden_acceptance_total"
+    },
+    "artifacts": {
+      "max": 4,
+      "breakdown": {
+        "own_test_exists_and_passes": 2,
+        "diff_within_allowed_paths": 1,
+        "diff_size_under_budget": 1
+      }
+    },
+    "judge": {
+      "max": 10,
+      "formula": "blinded rubric, 4 criteria x 2.5 each, one judge model for all arms"
+    },
+    "floor_penalty": {
+      "per_violation_class_in_added_lines": -2,
+      "cap": -6,
+      "rules": "lam floor-guard rule set applied to all arms equally"
+    }
+  },
+  "composite": "acceptance + artifacts + judge - floor_penalty",
+  "win_rule": "LAM wins the duel iff median(composite_lam) > median(composite_rival) across the task x seed matrix AND median(acceptance_lam) >= median(acceptance_rival)",
+  "gate": "LAM is GA-ready iff it wins >= 1 duel vs {pstack, pocock, osmani}; README claims must name which packs were beaten",
+  "noise_rule": "a cell where BOTH arms produce zero diff is degenerate; if more than half of a model's cells are degenerate, the whole model matrix is rerun on the swap model",
+  "lanes": {
+    "subagent_lane": "added post-freeze, pre-result: same tasks/specs/grader on subagent_general (SWE-2-medium), skills mounted at .devin/skills/; saturates at 13.3-13.5/14 on all arms -> no separation at this model strength",
+    "opencode_lane": "primary lane per spec; quota-blocked until ~2026-11-09T05:50Z; delayed matrix armed via setsid pid-file runs/opencode-delayed.log"
+  },
+  "secondary_axis": {
+    "efficiency": {
+      "metric": "total transcript tokens consumed per run (usage field in opencode --format json events)",
+      "formula": "eff = composite_pre_judge / max(1,total_tokens) * 1e6",
+      "verdict_rule": "if composite medians tie within a duel, LAM beats the rival iff median(eff_lam) > median(eff_rival) * 1.25; recorded before any opencode-lane result exists"
+    }
+  }
+}

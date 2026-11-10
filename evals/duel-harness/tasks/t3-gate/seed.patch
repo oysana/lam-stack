@@ -1,0 +1,13 @@
+diff --git a/extension/provider_catalog.js b/extension/provider_catalog.js
+index 5c77e9c8..1b709040 100644
+--- a/extension/provider_catalog.js
++++ b/extension/provider_catalog.js
+@@ -24,7 +24,7 @@
+     }
+     if (parsed.protocol === "chrome-extension:" && parsed.href.split(/[?#]/)[0] === google.url) return google;
+     if (parsed.protocol !== "https:") return null;
+-    return parsed.hostname === "chatgpt.com" ? chatgpt : null;
++    return parsed.hostname.includes("chatgpt.com") ? chatgpt : null;
+   }
+ 
+   // A selectors object saved under a previous default would pin it forever;

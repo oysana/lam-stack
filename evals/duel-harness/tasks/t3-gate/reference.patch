@@ -1,0 +1,60 @@
+diff --git a/STATUS.md b/STATUS.md
+index 1215906c..8146ecbc 100644
+--- a/STATUS.md
++++ b/STATUS.md
+@@ -225,7 +225,7 @@ T3 and WhatsApp fields. Dated results and measured timings are in
+ | Version | **0.6.0** |
+ | Published tester release | Derive from the [latest published release](https://github.com/oysana/voicebridge/releases/latest); a local candidate is not a published release |
+ 
+-| Source/build candidate | **0.6.0-361** / extension **0.6.0.256** | promotion line: stable 0.6.0-267 base + refactor work (typed wire contract, `LocalCommand`, extension typecheck lane, `SessionId` sweep inside `voicebridged`) + OyVoice rename (user-visible strings/help say OyVoice; package `voicebridge`, binaries, units, paths, native host, extension ID and storage keys keep the old spelling; `oyvoice` command added, `voicebridge` stays as alias) + rit3zh redesign fully reverted (settings/overlay/history render the pre-#100 layout; `native/` differs from 6af5115 only by the kept #113 badge fix) + git-tracked package revision (the recorded hash covers only `git ls-files` bytes and reproduces on any clean checkout) + github.com-outage-resilient pinned asset fetches (sha256-keyed runner cache, dispatch-only resilience probe). Source and package gates run in CI on the merged tree; physical acceptance pending. |
++| Source/build candidate | **0.6.0-361** / extension **0.6.0.257** | promotion line: stable 0.6.0-267 base + refactor work (typed wire contract, `LocalCommand`, extension typecheck lane, `SessionId` sweep inside `voicebridged`) + OyVoice rename (user-visible strings/help say OyVoice; package `voicebridge`, binaries, units, paths, native host, extension ID and storage keys keep the old spelling; `oyvoice` command added, `voicebridge` stays as alias) + rit3zh redesign fully reverted (settings/overlay/history render the pre-#100 layout; `native/` differs from 6af5115 only by the kept #113 badge fix) + git-tracked package revision (the recorded hash covers only `git ls-files` bytes and reproduces on any clean checkout) + github.com-outage-resilient pinned asset fetches (sha256-keyed runner cache, dispatch-only resilience probe). Source and package gates run in CI on the merged tree; physical acceptance pending. |
+ 
+ | Installed Debian package | Derive with `dpkg-query -W voicebridge`; dated installation evidence is in `TESTER_ACCEPTANCE.md` |
+ | Supported OS | Pop!_OS 24.04 |
+diff --git a/extension/.content-hash b/extension/.content-hash
+index 4b9c2b2a..b724fa32 100644
+--- a/extension/.content-hash
++++ b/extension/.content-hash
+@@ -1 +1 @@
+-20e635f203089906a8bb98d31e9f5e3ffd3b0df9d650c609a890fce7a2818a6b 0.6.0.256
++f4ef89ad74b799c7a63bd9e0ac8bf933d1688bc559f92932345f021db0bb2352 0.6.0.257
+diff --git a/extension/manifest.json b/extension/manifest.json
+index 90683a40..91d2ad8d 100644
+--- a/extension/manifest.json
++++ b/extension/manifest.json
+@@ -1,7 +1,7 @@
+ {
+   "manifest_version": 3,
+   "name": "OyVoice — Dictation Bridge",
+-  "version": "0.6.0.256",
++  "version": "0.6.0.257",
+   "version_name": "0.6.0",
+   "minimum_chrome_version": "150",
+   "description": "OyVoice MVP for global-hotkey dictation on Pop!_OS COSMIC.",
+diff --git a/extension/provider_catalog.js b/extension/provider_catalog.js
+index 1b709040..c258b92e 100644
+--- a/extension/provider_catalog.js
++++ b/extension/provider_catalog.js
+@@ -24,7 +24,7 @@
+     }
+     if (parsed.protocol === "chrome-extension:" && parsed.href.split(/[?#]/)[0] === google.url) return google;
+     if (parsed.protocol !== "https:") return null;
+-    return parsed.hostname.includes("chatgpt.com") ? chatgpt : null;
++    return parsed.hostname === "chatgpt.com" || parsed.hostname.endsWith(".chatgpt.com") ? chatgpt : null;
+   }
+ 
+   // A selectors object saved under a previous default would pin it forever;
+diff --git a/tests/js/provider_adapters.test.js b/tests/js/provider_adapters.test.js
+index f38635a9..91b8e405 100644
+--- a/tests/js/provider_adapters.test.js
++++ b/tests/js/provider_adapters.test.js
+@@ -25,7 +25,8 @@ test("catalog and registry pin HTTPS provider URLs and the no-sign-in default",
+   assert.equal(catalog.get("speechnotes"), null);
+   assert.equal(catalog.get("dictation_io"), null);
+   assert.equal(catalog.fromUrl("https://chatgpt.com/c/abc").id, "chatgpt");
+-  assert.equal(catalog.fromUrl("https://www.chatgpt.com/"), null);
++  assert.equal(catalog.fromUrl("https://www.chatgpt.com/").id, "chatgpt");
++  assert.equal(catalog.fromUrl("https://chatgpt.com.evil.com/"), null);
+   assert.equal(catalog.fromUrl("https://speechnotes.co/"), null);
+   assert.equal(catalog.fromUrl("http://chatgpt.com/"), null);
+ 

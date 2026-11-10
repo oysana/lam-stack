@@ -1,0 +1,33 @@
+diff --git a/extension/provider_catalog.js b/extension/provider_catalog.js
+index 5c77e9c8..b1fde6d0 100644
+--- a/extension/provider_catalog.js
++++ b/extension/provider_catalog.js
+@@ -24,7 +24,7 @@
+     }
+     if (parsed.protocol === "chrome-extension:" && parsed.href.split(/[?#]/)[0] === google.url) return google;
+     if (parsed.protocol !== "https:") return null;
+-    return parsed.hostname === "chatgpt.com" ? chatgpt : null;
++    return (parsed.hostname === "chatgpt.com" || parsed.hostname.endsWith(".chatgpt.com")) ? chatgpt : null;
+   }
+ 
+   // A selectors object saved under a previous default would pin it forever;
+@@ -36,10 +36,15 @@
+     cancel: 'button[aria-label="Cancel dictation"]',
+   });
+   function migrateSelectors(saved) {
+-    const selectors = { ...selectorDefaults, ...saved };
+-    if (selectors.start === 'button[aria-label="Start dictation"]') selectors.start = selectorDefaults.start;
+-    if (selectors.finish === 'button[aria-label="Submit dictation"]') selectors.finish = selectorDefaults.finish;
+-    return selectors;
++    const from = { ...(saved || {}) };
++    const filled = { ...selectorDefaults, ...from };
++    if (from.finish === undefined && from.stop !== undefined) filled.finish = from.stop;
++    if (from.composer === undefined && from.input !== undefined) filled.composer = from.input;
++    delete filled.stop;
++    delete filled.input;
++    if (filled.start === 'button[aria-label="Start dictation"]') filled.start = selectorDefaults.start;
++    if (filled.finish === 'button[aria-label="Submit dictation"]') filled.finish = selectorDefaults.finish;
++    return filled;
+   }
+ 
+   scope.OyVoiceProviderCatalog = Object.freeze({
